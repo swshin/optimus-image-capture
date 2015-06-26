@@ -1,33 +1,41 @@
 var spawn = require('child_process').spawn;
+var Promise = require("bluebird");
 var path = require('path');
-var fs = require('fs');
+var phantomScriptPath = path.join(__dirname, './phantom/phantomjs-script.js');
 
+module.exports = function () {
 
-var phantom = spawn('phantomjs', [path.join(__dirname, 'phantomjs-script.js')]);
-var phantomStream = phantom.stdout;
-var phantomResult = '';
+	var phantomScriptArguments = Array.prototype.slice.call(arguments);
+	var spawnArguments = [phantomScriptPath].concat(phantomScriptArguments);
 
-phantomStream.on('data', function (data) {
-	phantomResult += data;
-});
+	console.log(spawnArguments)
 
-phantomStream.on('end', function () {
-	phantomResult = JSON.parse(phantomResult);
-	console.log(phantomResult);
-});
+	//Promise 객체를 리턴
+	return new Promise(function (resolve, reject) {
 
-phantomStream.on('error', function (err) {
-	console.log('something is wrong :( ');
-});
+		var phantom = spawn('phantomjs', spawnArguments);
+		var phantomStream = phantom.stdout;
+		var phantomRawResult = "";
+		var phantomResult = {}
 
-//var myFile = fs.createWriteStream('myOutput.txt');
+		phantomStream.on('data', function (data) {
+			phantomRawResult += data;
+		});
 
-//화면으로도 뿌리고,
-//phantom.stdout.pipe(process.stdout, { end: false });
+		phantomStream.on('end', function () {
+			console.log(phantomRawResult);
+			phantomResult = JSON.parse(phantomRawResult);
 
-//파일로도 뿌리고,
-//phantom.stdout.pipe(myFile);
+			//Promise 성공
+			resolve(phantomResult);
+		});
 
-phantom.on('exit', function (code) {
-	process.exit(code);
-});
+		phantomStream.on('error', function (err) {
+			phantomResult.error = err;
+			phantomResult.errorMessage = "Child process를 통해 PhantomJS를 실행하는데 실패했습니다.";
+
+			//Promise 실패
+			reject(phantomResult);
+		});
+	});
+};

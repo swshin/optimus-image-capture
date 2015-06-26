@@ -14,5 +14,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/GSSHOPLabs/optimus-image-capture/issues"
+  },
+  "dependencies": {
+    "bluebird": "^2.9.30"
   }
 }

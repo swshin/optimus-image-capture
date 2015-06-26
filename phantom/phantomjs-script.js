@@ -22,13 +22,15 @@ var resources = {};
 //jQuery path
 var jQueryPath = "jquery-2.1.4.min.js";
 //이미지 퀄리티
-var imageQuality = 70;
+var imageQuality = system.args[2] || 70;
 //캡쳐 결과물 파일명들
 var outputFiles = [];
+//캡쳐 결과물 파일 경로
+var outputFilePath = "./phantom/output/";
 //캡쳐 결과물 파일
 var outputFileName = "";
 //상품 번호
-var prdid = 16233854;
+var prdid = system.args[1];
 //반환값
 var result = {
     "error": false,
@@ -43,7 +45,7 @@ var clipRect = undefined;
 //뷰포트(캡쳐할 크기) 가로
 var viewportWidth = 700;
 //뷰포트(캡쳐할 크기) 세로
-var viewportHeight = 1000;
+var viewportHeight = system.args[3] || 1000;
 
 
 
@@ -141,7 +143,7 @@ var renderPage = function () {
         try {
             outputFileName = prdid + "-" + i + ".jpg";
             page.clipRect = clipRect;
-            page.render(outputFileName, {format: 'jpeg', quality: imageQuality});
+            page.render(outputFilePath + outputFileName, {format: 'jpeg', quality: imageQuality});
             outputFiles.push(outputFileName);
 
             clipRect.top += viewportHeight;
@@ -171,7 +173,15 @@ var renderPage = function () {
 //페이지 오픈 -> 단품의 경우 상품기술서 URL이 존재
 page.open('http://www.gsshop.com/mi15/prd/prdImgDesc.gs?prdid=' + prdid, function (status) {
 	if (status !== 'success') {
-		console.log("ERROR");
+
+        //결과값 설정
+        result.files = [];
+        result.template = "";
+        result.error = true;
+        result.errorMessage = "상품번호 " + prdid + " 에 해당하는 상품기술서페이지를 여는데 실패했습니다.";
+
+        //결과값 리턴
+        console.log(JSON.stringify(result));
 		phantom.exit();
 	}
 });
