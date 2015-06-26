@@ -31,13 +31,6 @@ var outputFilePath = "./phantom/output/";
 var outputFileName = "";
 //상품 번호
 var prdid = system.args[1];
-//반환값
-var result = {
-    "error": false,
-    "errorMessage": "",
-    "files": [],
-    "template": ""
-};
 //캡쳐할 전체 영역
 var clientRect = undefined;
 //캡쳐할 부분 영역
@@ -46,6 +39,7 @@ var clipRect = undefined;
 var viewportWidth = 700;
 //뷰포트(캡쳐할 크기) 세로
 var viewportHeight = system.args[3] || 1000;
+
 
 
 
@@ -102,9 +96,14 @@ page.repaintRequested = function (e) {
 };
 
 //DOMContentLoaded 이벤트가 발생했을 때
-page.onCallback = function () {
-    //정말 로딩이 더이상 없는지 체크
-    documentReadyCheck();
+page.onCallback = function (event) {
+
+    switch (event) {
+        case 'DOMContentLoaded':
+            //정말 로딩이 더이상 없는지 체크
+            documentReadyCheck();
+        break;
+    }
 };
 
 //DOMContentLoaded 이벤트에 콜백 등록
@@ -114,6 +113,22 @@ page.onInitialized = function () {
             window.callPhantom('DOMContentLoaded');
         }, false);
     });
+};
+
+
+var returnResult = function (errorCode, errorMessage, files, template) {
+
+    //리턴값
+    var result = {
+        "errorCode": errorCode,
+        "errorMessage": errorMessage,
+        "files": files,
+        "template": template
+    };
+
+    //리턴값 전달 후 PhantomJS 종료
+    console.log(JSON.stringify(result));
+    phantom.exit();
 };
 
 
@@ -153,35 +168,21 @@ var renderPage = function () {
         }
 
         catch (excetion) {
-            //오류가 생기면 메시지에 담아서 보내는 것도 필요
+            //오류 내용 리턴하고 종료
+            returnResult("PHANOM02", prdid + "-" + i + ".jpg 파일을 생성하는 과정에서 오류가 발생했습니다.");
         }
     }
 
-    //결과값 설정
-    result.files = outputFiles;
-    result.template = "";
-    result.error = false;
-    result.errorMessage = null;
-
-    //결과값 리턴
-    console.log(JSON.stringify(result));
-    //팬텀 종료
-    phantom.exit(0);
+    //결과값 리턴하고 종료
+    returnResult(false, false, outputFiles, "");
 };
 
 
 //페이지 오픈 -> 단품의 경우 상품기술서 URL이 존재
 page.open('http://www.gsshop.com/mi15/prd/prdImgDesc.gs?prdid=' + prdid, function (status) {
+    //페이지를 오픈하는데 실패한 경우,
 	if (status !== 'success') {
-
-        //결과값 설정
-        result.files = [];
-        result.template = "";
-        result.error = true;
-        result.errorMessage = "상품번호 " + prdid + " 에 해당하는 상품기술서페이지를 여는데 실패했습니다.";
-
-        //결과값 리턴
-        console.log(JSON.stringify(result));
-		phantom.exit();
+        //오류 내용 리턴하고 종료
+        returnResult("PHANOM01", "상품번호 " + prdid + "에 해당하는 상품기술서페이지를 여는데 실패했습니다.");
 	}
 });
