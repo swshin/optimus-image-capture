@@ -1,59 +1,11 @@
 /*
-    모듈 로딩
+capture.vars //주요 변수들
+capture.init //output 폴더 비우기, 변수 초기화
+capture.open //옵션에 따라 page를 열어서 완전히 로드가 완료되면 page 객체 리턴
+capture.movies //page 객체에서 동영상 관련 처리
+capture.imagemaps //movies에서 마치면 좋겠지만, 이미지맵 처리를 여기서 함.
+capture.render //치환된 동영상 이미지와 동영상 위치값 등을 바탕으로 페이지를 캡쳐하고 나누어서 템플릿을 생성해서 리턴
 */
-var fs = require('fs');
-var system = require('system');
-var page = require('webpage').create();
-
-
-/*
-    변수 선언
-*/
-//userAgent 설정
-var userAgent = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.44 Safari/534.7';
-//리소스 제한시간 (ms)
-var resourceTimeout = 10000;
-//리소스 다운로드 시도 횟수
-var resourceRequestAttempts = 5;
-//리로스 다운로드 여부 체크 간격 (ms)
-var resourceCheckDuration = 3000;
-//컨텐츠 길이
-var contentLength = undefined;
-//iframe 로드 체크
-var iframeLoadFinished = false;
-//컨텐츠 리소스
-var resources = {};
-//jQuery path
-var jQueryPath = fs.workingDirectory + "/node_modules/jquery/dist/jquery.min.js";
-//이미지 퀄리티
-var imageQuality = system.args[2] || 70;
-//캡쳐 결과물 파일명들
-var outputFiles = [];
-//캡쳐 결과물 파일 경로
-var outputFilePath = fs.workingDirectory + "/phantom/output/";
-//캡쳐 결과물 파일
-var outputFileName = "";
-//캡쳐 결과물 템플릿
-var outputTemplate = "";
-//상품 번호
-var prdid = system.args[1];
-//캡쳐할 전체 영역
-var clientRect = undefined;
-//캡쳐할 부분 영역
-var clipRect = undefined;
-//뷰포트(캡쳐할 크기) 가로
-var viewportWidth = 700;
-//뷰포트(캡쳐할 크기) 세로
-var viewportHeight = system.args[3] || 1000;
-//템플릿에 포함할 인라인 CSS -> 9999로 되어 있는 상품기술서 이미지의 높이를 뷰포트 높이로 치환
-var inlineCSS = fs.read(fs.workingDirectory + '/phantom/inlines/inline.min.css').replace(/9999/, viewportHeight);
-//템플릿에 포함할 인라인 자바스크립트
-var inlineJS = fs.read(fs.workingDirectory + '/phantom/inlines/inline.min.js');
-
-
-
-
-
 
 /*
     페이지 세팅
