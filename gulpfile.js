@@ -5,18 +5,18 @@ var rename = require('gulp-rename');
 
 //자바스크립트 파일을 압축한다.
 gulp.task('optimize-js', function () {
-	return gulp.src(['phantom/inline.js'])
+	return gulp.src(['phantom/inlines/inline.js'])
 		.pipe(uglify())
 		.pipe(rename({suffix: '.min'}))
-		.pipe(gulp.dest('phantom'));
+		.pipe(gulp.dest('phantom/inlines'));
 });
 
 //CSS 파일을 압축한다.
 gulp.task('optimize-css', function () {
-	return gulp.src(['phantom/inline.css'])
+	return gulp.src(['phantom/inlines/inline.css'])
 		.pipe(minifycss())
 		.pipe(rename({suffix: '.min'}))
-		.pipe(gulp.dest('phantom'));
+		.pipe(gulp.dest('phantom/inlines'));
 });
 
 //기본 task 설정

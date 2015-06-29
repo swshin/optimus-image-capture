@@ -19,16 +19,18 @@ var resourceRequestAttempts = 5;
 var resourceCheckDuration = 3000;
 //컨텐츠 길이
 var contentLength = undefined;
+//iframe 로드 체크
+var iframeLoadFinished = false;
 //컨텐츠 리소스
 var resources = {};
 //jQuery path
-var jQueryPath = "/node_modules/jquery/dist/jquery.min.js";
+var jQueryPath = fs.workingDirectory + "/node_modules/jquery/dist/jquery.min.js";
 //이미지 퀄리티
 var imageQuality = system.args[2] || 70;
 //캡쳐 결과물 파일명들
 var outputFiles = [];
 //캡쳐 결과물 파일 경로
-var outputFilePath = "./phantom/output/";
+var outputFilePath = fs.workingDirectory + "/phantom/output/";
 //캡쳐 결과물 파일
 var outputFileName = "";
 //캡쳐 결과물 템플릿
@@ -43,10 +45,10 @@ var clipRect = undefined;
 var viewportWidth = 700;
 //뷰포트(캡쳐할 크기) 세로
 var viewportHeight = system.args[3] || 1000;
-//템플릿에 포함할 인라인 CSS
-var inlineCSS = fs.read('inline.min.css').replace(/9999/, viewportHeight);
+//템플릿에 포함할 인라인 CSS -> 9999로 되어 있는 상품기술서 이미지의 높이를 뷰포트 높이로 치환
+var inlineCSS = fs.read(fs.workingDirectory + '/phantom/inlines/inline.min.css').replace(/9999/, viewportHeight);
 //템플릿에 포함할 인라인 자바스크립트
-var inlineJS = fs.read('inline.min.js');
+var inlineJS = fs.read(fs.workingDirectory + '/phantom/inlines/inline.min.js');
 
 
 
@@ -60,16 +62,17 @@ page.settings.userAgent = userAgent
 page.settings.resourceTimeout = resourceTimeout;
 page.viewportSize = { width: viewportWidth, height: viewportHeight };
 
+//페이지가 모두 로드되었는지 체크
 var documentReadyCheck = function () {
     //현재 페이지 컨텐츠 길이
     var currentLength = page.content.length;
 
     //더이상 변경이 없으면, 결과 출력 -> 향후에는 nested iframe 까지 모두 체크 필요
-    if (currentLength === contentLength && !Object.keys(resources).length) {
+    if (iframeLoadFinished && currentLength === contentLength && !Object.keys(resources).length) {
         window.setTimeout(function () {
             //화면 캡쳐 시작
             renderPage();
-        }, 1000);
+        }, 1000); //혹시 몰라 1초 뒤에.. iframe 내부의 요소들까지 모두 완전하게 로드된걸 파악하기란..
     }
     //변경이 있으면 resourceCheckDuration 뒤에 다시 체크
     else {
@@ -95,14 +98,10 @@ page.onResourceReceived = function (response) {
         delete resources[response.id];
     }
 };
+
 //리소스 로드가 실패하면 목록에서 제거
 page.onResourceTimeout = function (request) {
     delete resources[request.id];
-};
-
-//페이지가 리페인트
-page.repaintRequested = function (e) {
-    console.log(e);
 };
 
 //DOMContentLoaded 이벤트가 발생했을 때
@@ -116,6 +115,15 @@ page.onCallback = function (event) {
     }
 };
 
+//onLoadFinished 이벤트가 발생했을 때
+page.onLoadFinished = function  (status) {
+    if (status === "success") {
+        iframeLoadFinished = page.evaluate(function () {
+            return window === window.top;
+        });
+    }
+};
+
 //DOMContentLoaded 이벤트에 콜백 등록
 page.onInitialized = function () {
     page.evaluate(function () {
@@ -126,6 +134,7 @@ page.onInitialized = function () {
 };
 
 
+//결과값 리턴
 var returnResult = function (errorCode, errorMessage, files, template) {
 
     //리턴값
@@ -141,7 +150,7 @@ var returnResult = function (errorCode, errorMessage, files, template) {
     phantom.exit();
 };
 
-
+//캡쳐 및 템플릿팅
 var renderPage = function () {
 
     //배경색 설정하기
@@ -182,10 +191,11 @@ var renderPage = function () {
         }
     }
 
+    //템플릿 생성
     outputTemplate = "<style>" + inlineCSS + "</style><div class=\"optimus-image-capture\">" + outputTemplate + "</div><script>" + inlineJS + "</script>";
 
     //결과값 리턴하고 종료
-    returnResult(false, false, outputFiles, "");
+    returnResult(false, false, outputFiles, outputTemplate);
 };
 
 
