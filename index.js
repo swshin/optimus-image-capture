@@ -20,21 +20,17 @@ module.exports = function () {
 			phantomRawResult += data;
 		});
 
+		//error 코드 유무에 따라 Promise 실패/성공 리턴
 		phantomStream.on('end', function () {
 			phantomResult = JSON.parse(phantomRawResult);
-
-			if (phantomResult.error) {
-				//Promise 실패
-				return reject(phantomResult);
-			}
-			//Promise 성공
-			return resolve(phantomResult);
+			if (phantomResult.error) return reject(phantomResult);
+			else return resolve(phantomResult);
 		});
 
+		//child process 에서 오류 발생시 Promise 실패 리턴
 		phantomStream.on('error', function (err) {
 			phantomResult.error = err;
 			phantomResult.errorMessage = "Child process를 통해 PhantomJS를 실행하는데 실패했습니다.";
-			//Promise 실패
 			return reject(phantomResult);
 		});
 	});

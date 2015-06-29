@@ -1,8 +1,10 @@
 /*
     모듈 로딩
 */
+var fs = require('fs');
 var system = require('system');
 var page = require('webpage').create();
+
 
 /*
     변수 선언
@@ -20,7 +22,7 @@ var contentLength = undefined;
 //컨텐츠 리소스
 var resources = {};
 //jQuery path
-var jQueryPath = "jquery-2.1.4.min.js";
+var jQueryPath = "/node_modules/jquery/dist/jquery.min.js";
 //이미지 퀄리티
 var imageQuality = system.args[2] || 70;
 //캡쳐 결과물 파일명들
@@ -29,6 +31,8 @@ var outputFiles = [];
 var outputFilePath = "./phantom/output/";
 //캡쳐 결과물 파일
 var outputFileName = "";
+//캡쳐 결과물 템플릿
+var outputTemplate = "";
 //상품 번호
 var prdid = system.args[1];
 //캡쳐할 전체 영역
@@ -39,6 +43,12 @@ var clipRect = undefined;
 var viewportWidth = 700;
 //뷰포트(캡쳐할 크기) 세로
 var viewportHeight = system.args[3] || 1000;
+//템플릿에 포함할 인라인 CSS
+var inlineCSS = fs.read('inline.min.css').replace(/9999/, viewportHeight);
+//템플릿에 포함할 인라인 자바스크립트
+var inlineJS = fs.read('inline.min.js');
+
+
 
 
 
@@ -159,19 +169,20 @@ var renderPage = function () {
             outputFileName = prdid + "-" + i + ".jpg";
             page.clipRect = clipRect;
             page.render(outputFilePath + outputFileName, {format: 'jpeg', quality: imageQuality});
+
             outputFiles.push(outputFileName);
+            outputTemplate += "<img src=\"data:image/gif;base64,R0lGODlhAQABAAAAACw=\" data-src=\"" + outputFileName + "\" class=\"lazy-hidden\"/><br />";
 
             clipRect.top += viewportHeight;
             clipRect.height = clientRect.height - clipRect.top < viewportHeight ? clientRect.height - clipRect.top : viewportHeight;
-
-            //이미지맵을 포함한 HTML 템플릿도 생성 필요
         }
-
         catch (excetion) {
             //오류 내용 리턴하고 종료
             returnResult("PHANOM02", prdid + "-" + i + ".jpg 파일을 생성하는 과정에서 오류가 발생했습니다.");
         }
     }
+
+    outputTemplate = "<style>" + inlineCSS + "</style><div class=\"optimus-image-capture\">" + outputTemplate + "</div><script>" + inlineJS + "</script>";
 
     //결과값 리턴하고 종료
     returnResult(false, false, outputFiles, "");
