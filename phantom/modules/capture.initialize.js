@@ -17,9 +17,9 @@ var initialize = function () {
 			//템플릿에 포함할 인라인 자바스크립트
 			vars.inlineJS = fs.read(vars.workingDirectory + '/phantom/inlines/inline.min.js');
 			//output 폴더를 삭제
-			fs.removeTree(vars.outputFilePath)
+			fs.removeTree(vars.outputFilePath);
 			//완료
-            resolve();
+            resolve(true);
         }
         catch (exception) {
             reject(report.result("PHANOM00", "output 폴더를 비우는데 실패했습니다."));

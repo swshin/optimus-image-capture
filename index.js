@@ -14,7 +14,7 @@ module.exports = function () {
 		var phantom = spawn('phantomjs', spawnArguments);
 		var phantomStream = phantom.stdout;
 		var phantomRawResult = "";
-		var phantomResult = {}
+		var phantomResult = {};
 
 		phantomStream.on('data', function (data) {
 			phantomRawResult += data;

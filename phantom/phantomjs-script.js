@@ -20,7 +20,11 @@ initialize()
 //치환된 동영상 이미지와 동영상 위치값 등을 바탕으로 페이지를 캡쳐하고 나누어서 템플릿을 생성해서 리턴
 .then(render)
 
-//최종 생성된 이미지 파일 리스트와 템플릿을 리턴 또는 오류를 리턴
-.then(report.complete, report.complete)
+//최종 생성된 이미지 파일 리스트와 템플릿 리턴
+.then(report.complete)
 
-.done();
+//오류가 있는 경우 오류 내용을 리턴
+.catch(report.error)
+
+//PhantomJS 종료
+.finally(phantom.exit);
