@@ -27,7 +27,6 @@ var render = function (page) {
             return document.querySelector("#html2image").getBoundingClientRect();
         });
 
-
         //캡쳐 시작 위치 초기화
         clipRect = {
             top: clientRect.top,

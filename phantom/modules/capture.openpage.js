@@ -27,7 +27,7 @@ var openpage = function () {
                         //로드가 완료된 페이지를 vars에 저장
                         vars.page = page;
                         //Promise Resolve
-                        resolve();
+                        resolve(page);
                     }, 1000);
                 }
                 //변경이 있으면 resourceCheckDuration 뒤에 다시 체크
@@ -98,6 +98,9 @@ var openpage = function () {
         //페이지 세팅
         page.settings.userAgent = vars.userAgent
         page.settings.resourceTimeout = vars.resourceTimeout;
+		page.settings.webSecurityEnabled = false;
+		page.settings.XSSAuditingEnabled = true;
+		page.settings.localToRemoteUrlAccessEnabled = true;
         page.viewportSize = { width: vars.viewportWidth, height: vars.viewportHeight };
         page.onResourceRequested = onResourceRequested;
         page.onResourceReceived = onResourceReceived;
