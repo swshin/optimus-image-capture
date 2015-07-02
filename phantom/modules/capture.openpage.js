@@ -94,28 +94,28 @@ var openpage = function () {
         };
 
         //페이지 세팅
-        page.settings.userAgent = vars.userAgent
-        page.settings.resourceTimeout = vars.resourceTimeout;
+		page.settings.userAgent = vars.userAgent
+		page.settings.resourceTimeout = vars.resourceTimeout;
 		page.settings.webSecurityEnabled = false;
 		page.settings.XSSAuditingEnabled = true;
 		page.settings.localToRemoteUrlAccessEnabled = true;
-        page.viewportSize = { width: vars.viewportWidth, height: vars.viewportHeight };
-        page.onResourceRequested = onResourceRequested;
-        page.onResourceReceived = onResourceReceived;
-        page.onResourceTimeout = onResourceTimeout;
-        page.onCallback = onCallback;
-        page.onLoadFinished = onLoadFinished;
-        page.onInitialized = onInitialized;
-        page.onError = onError;
+		page.viewportSize = { width: vars.viewportWidth, height: vars.viewportHeight };
+		page.onResourceRequested = onResourceRequested;
+		page.onResourceReceived = onResourceReceived;
+		page.onResourceTimeout = onResourceTimeout;
+		page.onCallback = onCallback;
+		page.onLoadFinished = onLoadFinished;
+		page.onInitialized = onInitialized;
+		page.onError = onError;
 
         //페이지 오픈 -> 단품의 경우 상품기술서 URL이 존재
-        page.open('http://www.gsshop.com/mi15/prd/prdImgDesc.gs?prdid=' + vars.prdid, function (status) {
-            //페이지를 오픈하는데 실패한 경우,
-        	if (status !== 'success') {
-                //오류 리포트
-                reject(report.result("PHANOM01", "상품번호 " + vars.prdid + "에 해당하는 상품기술서페이지를 여는데 실패했습니다."));
-        	}
-        });
+		page.open('http://www.gsshop.com/mi15/prd/prdImgDesc.gs?prdid=' + vars.prdid, function (status) {
+			//페이지를 오픈하는데 실패한 경우,
+			if (status !== 'success') {
+				//오류 리포트
+				reject(report.result("PHANOM01", "상품번호 " + vars.prdid + "에 해당하는 상품기술서페이지를 여는데 실패했습니다."));
+			}
+		});
 	});
 };
 

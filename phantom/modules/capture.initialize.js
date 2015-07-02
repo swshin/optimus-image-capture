@@ -1,4 +1,5 @@
 var fs = require('fs');
+var system = require('system');
 var Promise = require('bluebird');
 var vars = require('./capture.vars');
 

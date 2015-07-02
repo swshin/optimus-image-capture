@@ -20,6 +20,8 @@ module.exports = {
     jQueryPath : "",
     //이미지 퀄리티
     imageQuality : system.args[2] || 70,
+    //이미지 포맷
+    imageFormat : "jpeg",
     //캡쳐 결과물 파일 경로
     outputFilePath : "",
     //상품 번호
@@ -47,5 +49,6 @@ module.exports = {
         height : 0,
         halfHeight : 0,
         data : ""
-    }
+    },
+    mediaProperties : []
 };
