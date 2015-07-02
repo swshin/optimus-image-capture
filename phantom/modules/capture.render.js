@@ -18,15 +18,14 @@ var render = function (page) {
         var outputFiles = [];
 
         //배경색 설정하기
-        vars.page.evaluate(function () {
+        page.evaluate(function () {
             document.body.bgColor = '#FFF';
         });
 
         //페이지 높이 구하기
-        clientRect = vars.page.evaluate(function () {
+        clientRect = page.evaluate(function () {
             return document.querySelector("#html2image").getBoundingClientRect();
         });
-
 
         //캡쳐 시작 위치 초기화
         clipRect = {
@@ -41,8 +40,8 @@ var render = function (page) {
         for (var i=0; clipRect.top <= clientRect.height; i++) {
             try {
                 outputFileName = vars.prdid + "-" + i + ".jpg";
-                vars.page.clipRect = clipRect;
-                vars.page.render(vars.outputFilePath + outputFileName, {format: 'jpeg', quality: vars.imageQuality});
+                page.clipRect = clipRect;
+                page.render(vars.outputFilePath + outputFileName, {format: 'jpeg', quality: vars.imageQuality});
 
                 outputFiles.push(vars.outputFilePath + outputFileName);
                 outputTemplate += "<img src=\"data:image/gif;base64,R0lGODlhAQABAAAAACw=\" data-src=\"" + outputFileName + "\" class=\"lazy-hidden\"/><br />";

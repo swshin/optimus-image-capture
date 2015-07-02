@@ -3,6 +3,7 @@ var vars = require('./modules/capture.vars');
 var report = require('./modules/capture.report');
 var initialize = require('./modules/capture.initialize');
 var openpage = require('./modules/capture.openpage');
+var movies = require('./modules/capture.movies');
 var render = require('./modules/capture.render');
 
 //output 폴더 비우기, 변수 초기화
@@ -12,7 +13,7 @@ initialize()
 .then(openpage)
 
 //동영상 관련 처리
-//.then(movies)
+.then(movies)
 
 //movies에서 마치면 좋겠지만, 로직이 잘 안풀리면 이미지맵 처리를 여기서 함.
 //.then(imagemaps)
