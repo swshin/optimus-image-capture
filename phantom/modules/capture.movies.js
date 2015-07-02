@@ -168,8 +168,6 @@ var movies = function (page) {
 				return mediaProperties;
 			}, vars);
 
-			console.log(JSON.stringify(media));
-
 			//썸네일 로딩이 완료되는 타이밍을 고려해서 동영상 처리 완료
 			window.setTimeout(function () {
 				resolve(page);

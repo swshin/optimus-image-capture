@@ -25,9 +25,9 @@ var initialize = function () {
 			vars.playButtonImage.halfWidth = 0 | (vars.playButtonImage.width/2);
 			vars.playButtonImage.halfHeight = 0 | (vars.playButtonImage.height/2);
 			//템플릿에 포함할 인라인 CSS -> 9999로 되어 있는 상품기술서 이미지의 높이를 뷰포트 높이로 치환
-			vars.inlineCSS = fs.read(vars.workingDirectory + '/phantom/inlines/inline.min.css').replace(/9999/, vars.viewportHeight);
+			vars.inlineCSS = fs.read(vars.workingDirectory + '/phantom/resources/inline.min.css').replace(/9999/, vars.viewportHeight);
 			//템플릿에 포함할 인라인 자바스크립트
-			vars.inlineJS = fs.read(vars.workingDirectory + '/phantom/inlines/inline.min.js');
+			vars.inlineJS = fs.read(vars.workingDirectory + '/phantom/resources/inline.min.js');
 			//output 폴더를 삭제
 			fs.removeTree(vars.outputFilePath);
 
