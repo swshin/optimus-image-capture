@@ -23,12 +23,10 @@ var openpage = function () {
                 var currentLength = page.content.length;
                 //더이상 변경이 없으면, 결과 출력 -> 향후에는 nested iframe 까지 모두 체크 필요
                 if (iframeLoadFinished && currentLength === contentLength && !Object.keys(resources).length) {
-                    window.setTimeout(function () {
-                        //로드가 완료된 페이지를 vars에 저장
-                        vars.page = page;
-                        //Promise Resolve
-                        resolve(page);
-                    }, 1000);
+					//로드가 완료된 페이지를 vars에 저장
+					vars.page = page;
+					//Promise Resolve
+					resolve(page);
                 }
                 //변경이 있으면 resourceCheckDuration 뒤에 다시 체크
                 else {

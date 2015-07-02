@@ -13,7 +13,9 @@ module.exports = {
     //리소스 다운로드 시도 횟수
     resourceRequestAttempts : 5,
     //리로스 다운로드 여부 체크 간격 (ms)
-    resourceCheckDuration : 3000,
+    resourceCheckDuration : 2000,
+    //썸네일 다운로드 예상 시간 (ms)
+    thumbnailDownloadDuration : 2000,
     //jQuery path
     jQueryPath : "",
     //이미지 퀄리티
@@ -30,6 +32,20 @@ module.exports = {
     inlineCSS : "",
     //템플릿에 포함할 인라인 자바스크립트
     inlineJS : "",
-    //대상 페이지
-    page: null
+    //지원되지 않는 동영상 이미지
+    cautionImage : {
+        width : 0,
+        halfWidth : 0,
+        height : 0,
+        halfHeight : 0,
+        data : ""
+    },
+    //재생 버튼 이미지
+    playButtonImage : {
+        width : 0,
+        halfWidth : 0,
+        height : 0,
+        halfHeight : 0,
+        data : ""
+    }
 };
