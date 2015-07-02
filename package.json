@@ -16,7 +16,8 @@
     "url": "https://github.com/GSSHOPLabs/optimus-image-capture/issues"
   },
   "dependencies": {
-    "bluebird": "^2.9.30"
+    "bluebird": "^2.9.30",
+    "jquery": "^2.1.4"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
