@@ -33,8 +33,8 @@ var movies = function (page) {
 
 					[].forEach.call(params, function (item) {
 						var object = item.parentNode;
-						var width = (object.width < vars.cautionImage.width) ? vars.cautionImage.width : ((object.width > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : object.width);
-						var height = (object.height < vars.cautionImage.height) ? vars.cautionImage.height : object.height;
+						var width = ($(object).width() < vars.cautionImage.width) ? vars.cautionImage.width : (($(object).width() > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : $(object).width()) || parentBoundingClientRectWidth;
+						var height = ($(object).height() < vars.cautionImage.height) ? vars.cautionImage.height : $(object).height() || 0 | width / 2;
 
 						$(object).replaceWith("<div style=\"position: relative; width: " + width + "px; height: " + height + "px \"><div style=\"width: " + vars.cautionImage.width + "px;height: " + vars.cautionImage.height + "px;margin-left: -" + vars.cautionImage.halfWidth + "px;margin-top: -" + vars.cautionImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.cautionImage.width + " height=" + vars.cautionImage.height + " src=\"" + vars.cautionImage.data + "\" /></div></div>");
 					});
@@ -49,13 +49,13 @@ var movies = function (page) {
 						var object = item.parentNode;
 						var src = item.src;
 						var id = Number(new Date());
-						var width = (object.width > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : object.width || parentBoundingClientRectWidth;
-						var height = (object.width > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * object.height / object.width : object.height || 0 | parentBoundingClientRectWidth / 2;
+						var width = ($(object).width() > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : $(object).width() || parentBoundingClientRectWidth;
+						var height = ($(object).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(object).height() / $(object).width() : $(object).height() || 0 | width / 2;
 						var thumbnail = "";
 						var absolutePos = absolutePostion(object, parentBoundingClientRectTop, parentBoundingClientRectLeft);
 						$(object).replaceWith("<div style=\"position: relative; background: rgb(0,0,0); width: " + width + "px; height: " + height + "px \"><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:width, height:height, thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 				}
 
@@ -68,25 +68,25 @@ var movies = function (page) {
 					[].forEach.call(iframes, function (item) {
 						var src = item.src;
 						var id = item.src.match(/.+\/([^\/\?]+)/)[1];
-						var width = (item.width > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : item.width || parentBoundingClientRectWidth;
-						var height = (item.width > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * item.height / item.width : item.height || 0 | parentBoundingClientRectWidth / 2;
+						var width = ($(item).width() > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : $(item).width() || parentBoundingClientRectWidth;
+						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://img.youtube.com/vi/" + id + "/0.jpg";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
 						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:width, height:height, thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 
 					[].forEach.call(embeds, function (item) {
 						var src = item.src;
 						var id = item.src.match(/.+\/([^\/\?]+)/)[1];
-						var width = (item.width > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : item.width || parentBoundingClientRectWidth;
-						var height = (item.width > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * item.height / item.width : item.height || 0 | parentBoundingClientRectWidth / 2;
+						var width = ($(item).width() > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : $(item).width() || parentBoundingClientRectWidth;
+						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://img.youtube.com/vi/" + id + "/0.jpg";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
 						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:width, height:height, thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 				}
 
@@ -97,13 +97,13 @@ var movies = function (page) {
 					[].forEach.call(iframes, function (item) {
 						var src = item.src;
 						var id = item.src.match(/.+\/([^\/\?]+)/)[1];
-						var width = (item.width > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : item.width || parentBoundingClientRectWidth;
-						var height = (item.width > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * item.height / item.width : item.height || 0 | parentBoundingClientRectWidth / 2;
+						var width = ($(item).width() > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : $(item).width() || parentBoundingClientRectWidth;
+						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "https://i.vimeocdn.com/video/" + id;
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
 						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:width, height:height, thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 				}
 
@@ -115,25 +115,25 @@ var movies = function (page) {
 					[].forEach.call(iframes, function (item) {
 						var src = item.src;
 						var id = item.src.match(/vid=([^&]+)/)[1];
-						var width = (item.width > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : item.width || parentBoundingClientRectWidth;
-						var height = (item.width > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * item.height / item.width : item.height || 0 | parentBoundingClientRectWidth / 2;
+						var width = ($(item).width() > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : $(item).width() || parentBoundingClientRectWidth;
+						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://i1.daumcdn.net/svc/image/U03/tvpot_thumb/" + id + "/thumb.png";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
 						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:width, height:height, thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 
 					[].forEach.call(embeds, function (item) {
 						var src = item.src;
 						var id = item.flashvars.match(/vid=([^&]+)/)[1];
-						var width = (item.width > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : item.width || parentBoundingClientRectWidth;
-						var height = (item.width > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * item.height / item.width : item.height || 0 | parentBoundingClientRectWidth / 2;
+						var width = ($(item).width() > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : $(item).width() || parentBoundingClientRectWidth;
+						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://i1.daumcdn.net/svc/image/U03/tvpot_thumb/" + id + "/thumb.png";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
 						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:width, height:height, thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 				}
 
@@ -175,6 +175,7 @@ var movies = function (page) {
 				mediaProperties.sort(function (a,b) {
 					return a.top < b.top ? -1 : a.top > b.top ? 1 : (a.left < b.left ? -1 : a.left > b.left ? 1 : 0);
 				});
+
 				//동영상 관련 정보 저장
 				vars.mediaProperties = mediaProperties;
 				//Promise 성공

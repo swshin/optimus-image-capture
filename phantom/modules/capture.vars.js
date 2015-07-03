@@ -34,6 +34,10 @@ module.exports = {
     inlineCSS : "",
     //템플릿에 포함할 인라인 자바스크립트
     inlineJS : "",
+    //더미 이미지
+    dummyImage : {
+        data : ""
+    },
     //지원되지 않는 동영상 이미지
     cautionImage : {
         width : 0,
