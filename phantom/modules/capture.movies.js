@@ -186,7 +186,7 @@ var movies = function (page) {
 		else {
 			reject(report.result("PHANOM06", "페이지에 JQuery를 인젝션하는데 실패했습니다."));
 		}
-    });
+	});
 };
 
 module.exports = movies;
