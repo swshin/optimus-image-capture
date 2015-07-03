@@ -3,10 +3,7 @@ div.optimus-image-capture {
 }
 div.optimus-image-capture img {
     width: 100%;
-    min-height: 9999px;
-}
-div.optimus-image-capture img:last-child {
-    min-height: auto;
+    height: auto;
 }
 div.optimus-image-capture img.lazy-hidden {
     opacity: 0;

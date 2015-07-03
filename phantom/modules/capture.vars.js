@@ -20,6 +20,8 @@ module.exports = {
     jQueryPath : "",
     //이미지 퀄리티
     imageQuality : system.args[2] || 70,
+    //이미지 포맷
+    imageFormat : "jpeg",
     //캡쳐 결과물 파일 경로
     outputFilePath : "",
     //상품 번호
@@ -32,6 +34,10 @@ module.exports = {
     inlineCSS : "",
     //템플릿에 포함할 인라인 자바스크립트
     inlineJS : "",
+    //더미 이미지
+    dummyImage : {
+        data : ""
+    },
     //지원되지 않는 동영상 이미지
     cautionImage : {
         width : 0,
@@ -47,5 +53,6 @@ module.exports = {
         height : 0,
         halfHeight : 0,
         data : ""
-    }
+    },
+    mediaProperties : []
 };
