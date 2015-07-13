@@ -28,7 +28,7 @@ capture(1603020, 70, 1000)
 {
    "errorCode": errorCode, //정상이므로 false
    "errorMessage": errorMessage, //정상이므로 false
-   "files": files, //캡쳐된 이미지 리스트의 배열 [상품번호-순번.확장자, 상품번호-순번.확장자, ...]
+   "files": files, //캡쳐된 이미지 리스트의 배열 [경로/상품번호-순번.확장자, ...]
    "template": template //캡쳐된 이미지로 구성된 템플릿
 }
 ```
