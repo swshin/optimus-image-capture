@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "bluebird": "^2.9.30",
-    "jquery": "^2.1.4"
+    "jquery": "^2.1.4",
+    "spark-md5": "^1.0.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0",

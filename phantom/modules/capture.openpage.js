@@ -1,7 +1,9 @@
 var page = require('webpage').create();
 var Promise = require('bluebird');
+var SparkMD5 = require('spark-md5');
 var vars = require('./capture.vars');
 var report = require('./capture.report');
+
 
 var openpage = function () {
 	return new Promise(function (resolve, reject) {
@@ -15,6 +17,7 @@ var openpage = function () {
 		//컨텐츠 리소스
 		var resources = {};
 
+
 		//페이지가 모두 로드되었는지 체크하는 메서드
 		var documentReadyCheck = function () {
 			//페이지 타임아웃 이내이면,
@@ -23,10 +26,21 @@ var openpage = function () {
 				var currentLength = page.content.length;
 				//더이상 변경이 없으면, 결과 출력 -> 향후에는 nested iframe 까지 모두 체크 필요
 				if (iframeLoadFinished && currentLength === contentLength && !Object.keys(resources).length) {
-					//로드가 완료된 페이지를 vars에 저장
-					vars.page = page;
-					//Promise Resolve
-					resolve(page);
+					//MD5 생성
+					var currentMD5 = SparkMD5.hash(page.content);
+
+					//기존 MD5값과 비교해서 같으면,
+					if (vars.md5 === currentMD5) {
+						//작업 중지
+						reject(report.result("PHANOM99", "상품번호 " + vars.prdid + "는 변함이 없습니다."));
+					}
+					//기존 MD5값과 다르면 컨텐츠가 변경된 것이므로,
+					else {
+						//현재 md5값으로 변경
+						vars.md5 = currentMD5;
+						//Promise Resolve
+						resolve(page);
+					}
 				}
 				//변경이 있으면 resourceCheckDuration 뒤에 다시 체크
 				else {

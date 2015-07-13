@@ -73,7 +73,7 @@ var render = function (page) {
 					}
 				});
 
-				outputFileName = vars.prdid + "-" + i + vars.imageFormat;
+				outputFileName = vars.prdid + "-" + i + "." + vars.imageFormat;
 				page.clipRect = clipRect;
 				page.render(vars.outputFilePath + outputFileName, {format: vars.imageFormat, quality: vars.imageQuality});
 				outputFiles.push(vars.outputFilePath + outputFileName);
@@ -104,7 +104,7 @@ var render = function (page) {
 		//템플릿 생성
 		outputTemplate = "<style>" + vars.inlineCSS + "</style><div class='optimus-image-capture'>" + outputTemplate + "</div><script>" + vars.inlineJS + "</script>";
 		//결과값 리턴
-		resolve(report.result(false, false, outputFiles, outputTemplate));
+		resolve(report.result(false, false, outputFiles, outputTemplate, vars.md5));
 	});
 };
 

@@ -19,17 +19,19 @@ module.exports = {
 	//jQuery path
 	jQueryPath : "",
 	//이미지 퀄리티
-	imageQuality : system.args[2] || 70,
+	imageQuality : Number(system.args[2]) || 70,
 	//이미지 포맷
 	imageFormat : "jpeg",
 	//캡쳐 결과물 파일 경로
 	outputFilePath : "",
 	//상품 번호
 	prdid : system.args[1],
+	//기존 MD5
+	md5 : system.args[4],
 	//뷰포트(캡쳐할 크기) 가로
 	viewportWidth : 700,
 	//뷰포트(캡쳐할 크기) 세로
-	viewportHeight : system.args[3] || 1000,
+	viewportHeight : Number(system.args[3]) || 1000,
 	//템플릿에 포함할 인라인 CSS
 	inlineCSS : "",
 	//템플릿에 포함할 인라인 자바스크립트
