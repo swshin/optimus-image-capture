@@ -45,9 +45,14 @@ var openpage = function () {
 			}
 		};
 
-		//리소스가 요청되면 목록화
-		var onResourceRequested = function (request) {
-			resources[request.id] = 1;
+		//리소스가 요청되면 목록화(자바스크립트는 요청 취소)
+		var onResourceRequested = function (requestData, request) {
+			if (requestData.url.indexOf(".js") == -1 ) {
+				resources[requestData.id] = 1;
+			}
+			else {
+				request.cancel();
+			}
 		};
 
 		//리소스 로드가 완료되면 목록에서 제거

@@ -24,6 +24,13 @@ var render = function (page) {
 			document.body.bgColor = '#FFF';
 		});
 
+		//기본 글꼴 설정하기
+		page.evaluate(function () {
+			var font = document.createElement("style");
+			font.innerHTML = "* { font-family: '나눔바른고딕'; }";
+			document.head.appendChild(font);
+		});
+
 		//캡쳐할 전체 영역 구하기
 		clientRect = page.evaluate(function () {
 			return document.querySelector("#html2image").getBoundingClientRect();

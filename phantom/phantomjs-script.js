@@ -1,10 +1,8 @@
-var Promise = require('bluebird');
-var vars = require('./modules/capture.vars');
-var report = require('./modules/capture.report');
 var initialize = require('./modules/capture.initialize');
 var openpage = require('./modules/capture.openpage');
 var movies = require('./modules/capture.movies');
 var render = require('./modules/capture.render');
+var report = require('./modules/capture.report');
 
 //output 폴더 비우기, 변수 초기화
 initialize()
