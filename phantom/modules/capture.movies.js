@@ -10,10 +10,11 @@ var movies = function (page) {
 		//jQuery 삽입
 		if (page.injectJs(vars.jQueryPath)) {
 
+			//안과 밖의 변수명 바꾸기..
 			var mediaProperties = page.evaluate(function (vars) {
-				var mediaProperties = [];
+				var __mediaProperties = [];
 
-				//동영상의 절대 위치
+				//동영상의 절대 위치 -> FIXME var 형태로 할래 ㅋ
 				function absolutePostion (element, parentBoundingClientRectTop, parentBoundingClientRectLeft) {
 					var selectedPosX = 0;
 					var selectedPosY = 0;
@@ -31,12 +32,16 @@ var movies = function (page) {
 				function removeFlash (currentDocument, parentBoundingClientRectWidth) {
 					var params = currentDocument.querySelectorAll('param[name="movie"][value*="swf"]');
 
+					//FIXME 라인이 너무 길다. 읽기 좋게 변경 필요..
+					//FIXME jQuery 감싸기..
+
 					[].forEach.call(params, function (item) {
 						var object = item.parentNode;
+						var $object = $(object);
 						var width = ($(object).width() < vars.cautionImage.width) ? vars.cautionImage.width : (($(object).width() > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : $(object).width()) || parentBoundingClientRectWidth;
 						var height = ($(object).height() < vars.cautionImage.height) ? vars.cautionImage.height : $(object).height() || 0 | width / 2;
 
-						$(object).replaceWith("<div style=\"position: relative; width: " + width + "px; height: " + height + "px \"><div style=\"width: " + vars.cautionImage.width + "px;height: " + vars.cautionImage.height + "px;margin-left: -" + vars.cautionImage.halfWidth + "px;margin-top: -" + vars.cautionImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.cautionImage.width + " height=" + vars.cautionImage.height + " src=\"" + vars.cautionImage.data + "\" /></div></div>");
+						$(object).replaceWith("<div style=\"position: relative; width: " + width + "px; height: " + height + "px \"><div style=\"width: " + vars.cautionImage.width + "px;height: " + vars.cautionImage.height + "px;margin-left: -" + vars.cautionImage.halfWidth + "px;margin-top: -" + vars.cautionImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.cautionImage.width + " height=" + vars.cautionImage.height + " src=\"" + vars.cautionImage.url + "\" /></div></div>");
 					});
 				}
 
@@ -53,9 +58,9 @@ var movies = function (page) {
 						var height = ($(object).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(object).height() / $(object).width() : $(object).height() || 0 | width / 2;
 						var thumbnail = "";
 						var absolutePos = absolutePostion(object, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(object).replaceWith("<div style=\"position: relative; background: rgb(0,0,0); width: " + width + "px; height: " + height + "px \"><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
+						$(object).replaceWith("<div style=\"position: relative; background: rgb(0,0,0); width: " + width + "px; height: " + height + "px \"><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 				}
 
@@ -72,9 +77,9 @@ var movies = function (page) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://img.youtube.com/vi/" + id + "/0.jpg";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 
 					[].forEach.call(embeds, function (item) {
@@ -84,9 +89,9 @@ var movies = function (page) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://img.youtube.com/vi/" + id + "/0.jpg";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 				}
 
@@ -101,9 +106,9 @@ var movies = function (page) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "https://i.vimeocdn.com/video/" + id;
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 				}
 
@@ -119,9 +124,9 @@ var movies = function (page) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://i1.daumcdn.net/svc/image/U03/tvpot_thumb/" + id + "/thumb.png";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 
 					[].forEach.call(embeds, function (item) {
@@ -131,9 +136,9 @@ var movies = function (page) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://i1.daumcdn.net/svc/image/U03/tvpot_thumb/" + id + "/thumb.png";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.data + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
-						mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
+						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 				}
 
@@ -165,17 +170,34 @@ var movies = function (page) {
 				iframeFinder(document, topBoundingClientRect.top, topBoundingClientRect.left, topBoundingClientRect.width);
 
 				//변환된 결과들 리턴
-				return mediaProperties;
+				return __mediaProperties;
 			}, vars);
 
 			//썸네일 로딩이 완료되는 타이밍을 고려해서 동영상 처리 완료
 			window.setTimeout(function () {
+				//동영상의 위치로 정렬하는 함수
+				var comparePosition = function (a, b) {
+					if (a.top < b.top) {
+						return -1;
+					}
+					else if (a.top > b.top) {
+						return 1;
+					}
+					else {
+						if (a.left < b.left) {
+							return -1;
+						}
+						else if (a.left > b.left) {
+							return 1;
+						}
+						else {
+							return 0;
+						}
+					}
+				}
 
-				//동영상의 절대값에 따라 정렬
-				mediaProperties.sort(function (a,b) {
-					return a.top < b.top ? -1 : a.top > b.top ? 1 : (a.left < b.left ? -1 : a.left > b.left ? 1 : 0);
-				});
-
+				//동영상의 절대 높이에 따라 정렬
+				mediaProperties.sort(comparePosition);
 				//동영상 관련 정보 저장
 				vars.mediaProperties = mediaProperties;
 				//Promise 성공

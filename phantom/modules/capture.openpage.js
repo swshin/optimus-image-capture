@@ -17,6 +17,60 @@ var openpage = function () {
 		//컨텐츠 리소스
 		var resources = {};
 
+		//page.open 실행이 완료되면 호출되는 콜백
+		var onInitialized = function () {
+			page.evaluate(function () {
+				//DOMContentLoaded 이벤트에 콜백 등록
+				document.addEventListener('DOMContentLoaded', function () {
+					window.callPhantom('DOMContentLoaded');
+				}, false);
+			});
+		};
+
+		//DOMContentLoaded 이벤트가 발생했을 때
+		var onCallback = function (event) {
+			if (event == 'DOMContentLoaded') {
+				//정말 로딩이 더이상 없는지 체크
+				documentReadyCheck();
+			}
+		};
+
+		//onLoadFinished 이벤트가 발생했을 때 호출되는 콜백
+		var onLoadFinished = function  (status) {
+			if (status === "success") {
+				//최상위 iframe까지 로드가 완료되면 iframeLoadFinished 값에 반영
+				iframeLoadFinished = page.evaluate(function () {
+					return window === window.top;
+				});
+			}
+		};
+
+		//리소스가 요청되면 목록화(자바스크립트는 요청 취소)
+		var onResourceRequested = function (requestData, request) {
+			if (requestData.url.indexOf(".js") === -1 ) {
+				resources[requestData.id] = 1;
+			}
+			else {
+				request.cancel();
+			}
+		};
+
+		//리소스 로드가 완료되면 목록에서 제거
+		var onResourceReceived = function (response) {
+			if (response.stage == 'end') {
+				delete resources[response.id];
+			}
+		};
+
+		//리소스 로드가 실패하면 목록에서 제거
+		var onResourceTimeout = function (request) {
+			delete resources[request.id];
+		};
+
+		//JavaScript 오류 발생시
+		var onError = function (msg) {
+			reject(report.result("PHANOM04", "PhantomJS에서 JavaScript 오류가 발생했습니다."));
+		};
 
 		//페이지가 모두 로드되었는지 체크하는 메서드
 		var documentReadyCheck = function () {
@@ -26,7 +80,7 @@ var openpage = function () {
 				var currentLength = page.content.length;
 				//더이상 변경이 없으면, 결과 출력 -> 향후에는 nested iframe 까지 모두 체크 필요
 				if (iframeLoadFinished && currentLength === contentLength && !Object.keys(resources).length) {
-					//MD5 생성
+					//MD5 생성 TESTME 진짜 content가 iframe을 포함하고 있나?
 					var currentMD5 = SparkMD5.hash(page.content);
 
 					//기존 MD5값과 비교해서 같으면,
@@ -59,59 +113,6 @@ var openpage = function () {
 			}
 		};
 
-		//리소스가 요청되면 목록화(자바스크립트는 요청 취소)
-		var onResourceRequested = function (requestData, request) {
-			if (requestData.url.indexOf(".js") == -1 ) {
-				resources[requestData.id] = 1;
-			}
-			else {
-				request.cancel();
-			}
-		};
-
-		//리소스 로드가 완료되면 목록에서 제거
-		var onResourceReceived = function (response) {
-			if (response.stage == 'end') {
-				delete resources[response.id];
-			}
-		};
-
-		//리소스 로드가 실패하면 목록에서 제거
-		var onResourceTimeout = function (request) {
-			delete resources[request.id];
-		};
-
-		//DOMContentLoaded 이벤트가 발생했을 때
-		var onCallback = function (event) {
-			if (event == 'DOMContentLoaded') {
-				//정말 로딩이 더이상 없는지 체크
-				documentReadyCheck();
-			}
-		};
-
-		//onLoadFinished 이벤트가 발생했을 때
-		var onLoadFinished = function  (status) {
-			if (status === "success") {
-				iframeLoadFinished = page.evaluate(function () {
-					return window === window.top;
-				});
-			}
-		};
-
-		//DOMContentLoaded 이벤트에 콜백 등록
-		var onInitialized = function () {
-			page.evaluate(function () {
-				document.addEventListener('DOMContentLoaded', function () {
-					window.callPhantom('DOMContentLoaded');
-				}, false);
-			});
-		};
-
-		//JavaScript 오류 발생시
-		var onError = function (msg) {
-			reject(report.result("PHANOM04", "PhantomJS에서 JavaScript 오류가 발생했습니다."));
-		};
-
 		//페이지 세팅
 		page.settings.userAgent = vars.userAgent
 		page.settings.resourceTimeout = vars.resourceTimeout;
@@ -120,15 +121,15 @@ var openpage = function () {
 		page.settings.localToRemoteUrlAccessEnabled = true;
 		page.customHeaders = { 'Connection': 'close' };
 		page.viewportSize = { width: vars.viewportWidth, height: vars.viewportHeight };
+		page.onInitialized = onInitialized;
+		page.onCallback = onCallback;
+		page.onLoadFinished = onLoadFinished;
 		page.onResourceRequested = onResourceRequested;
 		page.onResourceReceived = onResourceReceived;
 		page.onResourceTimeout = onResourceTimeout;
-		page.onCallback = onCallback;
-		page.onLoadFinished = onLoadFinished;
-		page.onInitialized = onInitialized;
 		page.onError = onError;
 
-		//페이지 오픈 -> 단품의 경우 상품기술서 URL이 존재
+		//모든 세팅을 마치고 페이지 오픈
 		page.open('http://www.gsshop.com/mi15/prd/prdImgDesc.gs?prdid=' + vars.prdid, function (status) {
 			//페이지를 오픈하는데 실패한 경우,
 			if (status !== 'success') {

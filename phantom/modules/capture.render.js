@@ -81,7 +81,7 @@ var render = function (page) {
 				//만약 현재 위치가 동영상 위치라면,
 				if (targetedMovie) {
 					//영상에 대한 링크 추가
-					outputTemplate += "<a href='" + targetedMovie.src + "' target=_blank><img src='" + vars.dummyImage.data + "' data-src='" + outputFileName + "' width=" + clipRect.width + " height=" + clipRect.height + " class='lazy-hidden'/></a><br />";
+					outputTemplate += "<a href='" + targetedMovie.src + "' target=_blank><img src='" + vars.dummyImage.url + "' data-src='" + outputFileName + "' width=" + clipRect.width + " height=" + clipRect.height + " class='lazy-hidden'/></a><br />";
 
 					//해당 동영상만큼만 다음 시작 위치 조정
 					clipRect.top += targetedMovie.height;
@@ -89,7 +89,7 @@ var render = function (page) {
 				}
 				//동영상 위치가 아니라면,
 				else {
-					outputTemplate += "<img src='" + vars.dummyImage.data + "' data-src='" + outputFileName + "' width=" + clipRect.width + " height=" + clipRect.height + " class='lazy-hidden'/><br />";
+					outputTemplate += "<img src='" + vars.dummyImage.url + "' data-src='" + outputFileName + "' width=" + clipRect.width + " height=" + clipRect.height + " class='lazy-hidden'/><br />";
 
 					clipRect.top += (clipRect.height == vars.viewportHeight) ? vars.viewportHeight : clipRect.height;
 					clipRect.height = clientRect.height - clipRect.top < vars.viewportHeight ? clientRect.height - clipRect.top : vars.viewportHeight;

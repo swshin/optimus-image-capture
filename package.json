@@ -1,6 +1,6 @@
 {
   "name": "optimus-image-capture",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Capture module of Optimus Image",
   "main": "index.js",
   "scripts": {
