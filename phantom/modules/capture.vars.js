@@ -1,5 +1,6 @@
 var fs = require('fs');
 var system = require('system');
+var modulePath = system.args[0].replace(/[^\/]*\/[^\/]*$/, '');
 
 module.exports = {
 	//userAgent 설정
@@ -15,13 +16,13 @@ module.exports = {
 	//썸네일 다운로드 예상 시간 (ms)
 	thumbnailDownloadDuration : 2000,
 	//jQuery path
-	jQueryPath : fs.workingDirectory + "/node_modules/jquery/dist/jquery.min.js",
+	jQueryPath : modulePath + "/node_modules/jquery/dist/jquery.min.js",
 	//이미지 퀄리티
 	imageQuality : Number(system.args[2]) || 70,
 	//이미지 포맷
 	imageFormat : "jpeg",
 	//캡쳐 결과물 파일 경로
-	outputFilePath : fs.workingDirectory + "/phantom/output/",
+	outputFilePath : modulePath + "/phantom/output/",
 	//캡쳐 대상 URL
 	url : system.args[1],
 	//기존 MD5
@@ -33,9 +34,9 @@ module.exports = {
 	//캡쳐할 전체 영역 셀렉터
 	clientRectSelector: "#html2image",
 	//템플릿에 포함할 인라인 CSS
-	inlineCSS : fs.read(fs.workingDirectory + '/phantom/resources/inline.min.css'),
+	inlineCSS : fs.read(modulePath + '/phantom/resources/inline.min.css'),
 	//템플릿에 포함할 인라인 자바스크립트
-	inlineJS : fs.read(fs.workingDirectory + '/phantom/resources/inline.min.js').replace(/"/g, "'"),
+	inlineJS : fs.read(modulePath + '/phantom/resources/inline.min.js').replace(/"/g, "'"),
 	//더미 이미지
 	dummyImage : {
 		url : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEXCwsK592mkAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg=="
@@ -46,7 +47,7 @@ module.exports = {
 		height : 150,
 		halfWidth : 75,
 		halfHeight : 75,
-		url : "file:///" + fs.workingDirectory + "/phantom/resources/" + "swf.jpg"
+		url : "file:///" + modulePath + "/phantom/resources/" + "swf.jpg"
 	},
 	//재생 버튼 이미지
 	playButtonImage : {
@@ -54,7 +55,7 @@ module.exports = {
 		height : 100,
 		halfWidth : 50,
 		halfHeight : 50,
-		url : "file:///" + fs.workingDirectory + "/phantom/resources/" + "playbutton.png"
+		url : "file:///" + modulePath + "/phantom/resources/" + "playbutton.png"
 	},
 	mediaProperties : []
 };
