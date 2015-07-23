@@ -22,21 +22,23 @@ module.exports = {
 	imageFormat : "jpeg",
 	//캡쳐 결과물 파일 경로
 	outputFilePath : fs.workingDirectory + "/phantom/output/",
-	//상품 번호
-	prdid : system.args[1],
+	//캡쳐 대상 URL
+	url : system.args[1],
 	//기존 MD5
 	md5 : system.args[4],
 	//뷰포트(캡쳐할 크기) 가로
 	viewportWidth : 700,
 	//뷰포트(캡쳐할 크기) 세로
 	viewportHeight : Number(system.args[3]) || 1000,
+	//캡쳐할 전체 영역 셀렉터
+	clientRectSelector: "#html2image",
 	//템플릿에 포함할 인라인 CSS
 	inlineCSS : fs.read(fs.workingDirectory + '/phantom/resources/inline.min.css'),
 	//템플릿에 포함할 인라인 자바스크립트
 	inlineJS : fs.read(fs.workingDirectory + '/phantom/resources/inline.min.js').replace(/"/g, "'"),
 	//더미 이미지
 	dummyImage : {
-		url : "data:image/gif;base64,R0lGODlhAQABAAAAACw="
+		url : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEXCwsK592mkAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg=="
 	},
 	//지원되지 않는 동영상 이미지
 	cautionImage : {

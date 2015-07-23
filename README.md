@@ -7,8 +7,8 @@
 ```javascript
 var capture = require('optimus-image-capture');
 
-//상품코드, 이미지 퀄리티, 슬라이스할 세로 높이
-capture(1603020, 70, 1000)
+//대상 URL, 이미지 퀄리티, 슬라이스할 세로 높이, 해시값
+capture("https://www.google.com/", 70, 1000, "426AC...")
 .then(function (result) {
 	//켭쳐된 이미지파일 리스트, 템플릿
 	console.log(result);
@@ -40,7 +40,7 @@ capture(1603020, 70, 1000)
 ```javascript
 {
    "errorCode": errorCode, //에러 코드
-   "errorMessage": errorMessage, //에러 상세
+   "errorMessage": errorMessage, //에러 상세 내용
    "files": files, //오류이므로 []
    "template": template //오류이므로 ""
 }

@@ -45,7 +45,6 @@ var movies = function (page) {
 					});
 				}
 
-
 				//video 태그 관련 정보 추출 및 썸네일로 치환
 				function replaceVideo (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
 					var sources = currentDocument.querySelectorAll('source[src][type*="video"]');
@@ -63,7 +62,6 @@ var movies = function (page) {
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
 				}
-
 
 				//youtube 관련 정보 추출 및 썸네일로 치환
 				function replaceYoutube (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {

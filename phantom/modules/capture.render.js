@@ -20,21 +20,21 @@ var render = function (page) {
 		var targetedMovie = undefined;
 
 		//배경색 설정하기
-		page.evaluate(function () {
+		page.evaluate(function (vars) {
 			document.body.bgColor = '#FFF';
-		});
+		}, vars);
 
 		//기본 글꼴 설정하기
-		page.evaluate(function () {
+		page.evaluate(function (vars) {
 			var font = document.createElement("style");
 			font.innerHTML = "* { font-family: '나눔바른고딕'; }";
 			document.head.appendChild(font);
-		});
+		}, vars);
 
 		//캡쳐할 전체 영역 구하기
-		clientRect = page.evaluate(function () {
-			return document.querySelector("#html2image").getBoundingClientRect();
-		});
+		clientRect = page.evaluate(function (vars) {
+			return document.querySelector(vars.clientRectSelector).getBoundingClientRect();
+		}, vars);
 
 		//캡쳐 시작 위치 초기화 (기본 캡쳐높이보다 기술서 길이가 짧을 경우에 대한 예외 처리 포함)
 		clipRect = {
@@ -73,7 +73,7 @@ var render = function (page) {
 					}
 				});
 
-				outputFileName = vars.prdid + "-" + i + "." + vars.imageFormat;
+				outputFileName = i + "." + vars.imageFormat;
 				page.clipRect = clipRect;
 				page.render(vars.outputFilePath + outputFileName, {format: vars.imageFormat, quality: vars.imageQuality});
 				outputFiles.push(vars.outputFilePath + outputFileName);
@@ -97,7 +97,7 @@ var render = function (page) {
 			}
 			catch (excetion) {
 				//오류 리포트
-				reject(report.result("PHANOM02", vars.prdid + "-" + i + ".jpg 파일을 생성하는 과정에서 오류가 발생했습니다."));
+				reject(report.result("PHANOM02", i + "." + vars.imageFormat + ".파일을 생성하는 과정에서 오류가 발생했습니다."));
 			}
 		}
 

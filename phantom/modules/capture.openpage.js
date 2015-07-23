@@ -86,7 +86,7 @@ var openpage = function () {
 					//기존 MD5값과 비교해서 같으면,
 					if (vars.md5 === currentMD5) {
 						//작업 중지
-						reject(report.result("PHANOM99", "상품번호 " + vars.prdid + "는 변함이 없습니다."));
+						reject(report.result("PHANOM99", "요청한 URL은 변경되지 않았습니다."));
 					}
 					//기존 MD5값과 다르면 컨텐츠가 변경된 것이므로,
 					else {
@@ -100,6 +100,7 @@ var openpage = function () {
 				else {
 					contentLength = currentLength;
 					Object.keys(resources).forEach(function (item, index, array) {
+						//재시도 횟수과 초과되면 해당 리소스 다운로드 포기
 						if (++resources[item] > vars.resourceRequestAttempts) {
 							delete resources[item];
 						}
@@ -130,11 +131,11 @@ var openpage = function () {
 		page.onError = onError;
 
 		//모든 세팅을 마치고 페이지 오픈
-		page.open('http://www.gsshop.com/mi15/prd/prdImgDesc.gs?prdid=' + vars.prdid, function (status) {
+		page.open(vars.url, function (status) {
 			//페이지를 오픈하는데 실패한 경우,
 			if (status !== 'success') {
 				//오류 리포트
-				reject(report.result("PHANOM01", "상품번호 " + vars.prdid + "에 해당하는 상품기술서페이지를 여는데 실패했습니다."));
+				reject(report.result("PHANOM01", vars.url + " 를 여는데 실패했습니다."));
 			}
 		});
 	});
