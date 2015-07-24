@@ -1,9 +1,10 @@
 //결과값 리턴
-var result = function (errorCode, errorMessage, files, template, md5) {
+var result = function (errorCode, errorMessage, path, files, template, md5) {
 	//리턴값
 	return {
 		"errorCode": errorCode,
 		"errorMessage": errorMessage,
+		"path": path,
 		"files": files,
 		"template": template,
 		"md5": md5
