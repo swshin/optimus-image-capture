@@ -76,7 +76,7 @@ var render = function (page) {
 				outputFileName = i + "." + vars.imageFormat;
 				page.clipRect = clipRect;
 				page.render(vars.outputFilePath + outputFileName, {format: vars.imageFormat, quality: vars.imageQuality});
-				outputFiles.push(vars.outputFilePath + outputFileName);
+				outputFiles.push(outputFileName);
 
 				//만약 현재 위치가 동영상 위치라면,
 				if (targetedMovie) {
@@ -104,7 +104,7 @@ var render = function (page) {
 		//템플릿 생성
 		outputTemplate = "<style>" + vars.inlineCSS + "</style><div class='optimus-image-capture'>" + outputTemplate + "</div><script>" + vars.inlineJS + "</script>";
 		//결과값 리턴
-		resolve(report.result(false, false, outputFiles, outputTemplate, vars.md5));
+		resolve(report.result(false, false, vars.outputFilePath, outputFiles, outputTemplate, vars.md5));
 	});
 };
 
