@@ -96,6 +96,8 @@ var render = function (page) {
 				}
 			}
 			catch (excetion) {
+				//페이지 닫기
+				page.close();
 				//오류 리포트
 				reject(report.result("PHANOM02", i + "." + vars.imageFormat + ".파일을 생성하는 과정에서 오류가 발생했습니다."));
 			}
@@ -103,6 +105,8 @@ var render = function (page) {
 
 		//템플릿 생성
 		outputTemplate = "<style>" + vars.inlineCSS + "</style><div class='optimus-image-capture'>" + outputTemplate + "</div><script>" + vars.inlineJS + "</script>";
+		//페이지 닫기
+		page.close();
 		//결과값 리턴
 		resolve(report.result(false, false, vars.outputFilePath, outputFiles, outputTemplate, vars.md5));
 	});

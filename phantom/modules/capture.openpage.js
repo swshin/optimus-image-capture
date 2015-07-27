@@ -61,8 +61,12 @@ var openpage = function () {
 		};
 
 		//JavaScript 오류 발생시
-		var onError = function (msg) {
-			reject(report.result("PHANOM04", "PhantomJS에서 JavaScript 오류가 발생했습니다."));
+		var onError = function (errorMessage) {
+			//페이지 닫기
+			page.close();
+			
+			//오류 내역 리포트하고 종료
+			reject(report.result("PHANOM04", "PhantomJS에서 JavaScript 오류가 발생했습니다. " + errorMessage));
 		};
 
 		//페이지가 모두 로드되었는지 체크하는 메서드

@@ -204,6 +204,9 @@ var movies = function (page) {
 			}, vars.thumbnailDownloadDuration);
 		}
 		else {
+			//페이지 닫기
+			page.close();
+			//오류 리포트 후 종료
 			reject(report.result("PHANOM06", "페이지에 JQuery를 인젝션하는데 실패했습니다."));
 		}
 	});
