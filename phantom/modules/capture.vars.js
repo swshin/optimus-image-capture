@@ -1,6 +1,6 @@
 var fs = require('fs');
 var system = require('system');
-var modulePath = system.args[0].replace(/[^\/]*\/[^\/]*$/, '');
+var modulePath = fs.absolute(system.args[0].replace(/[^\/]*\/[^\/]*$/, ''));
 
 module.exports = {
 	//userAgent 설정

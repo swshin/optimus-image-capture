@@ -12,8 +12,6 @@ var openpage = function () {
 		var openpageTime = Number(new Date());
 		//iframe 로드 체크
 		var iframeLoadFinished = false;
-		//컨텐츠 길이
-		var contentLength = 0;
 		//컨텐츠 리소스
 		var resources = {};
 
@@ -71,10 +69,8 @@ var openpage = function () {
 		var documentReadyCheck = function () {
 			//페이지 타임아웃 이내이면,
 			if (Number(new Date()) - openpageTime < vars.openpageTimeout) {
-				//현재 페이지 컨텐츠 길이
-				var currentLength = page.content.length;
 				//더이상 변경이 없으면, 결과 출력 -> 향후에는 nested iframe 까지 모두 체크 필요
-				if (iframeLoadFinished && currentLength === contentLength && !Object.keys(resources).length) {
+				if (iframeLoadFinished && !Object.keys(resources).length) {
 					//MD5 생성 TESTME 진짜 content가 iframe을 포함하고 있나?
 					var currentMD5 = SparkMD5.hash(page.content);
 
@@ -93,7 +89,6 @@ var openpage = function () {
 				}
 				//변경이 있으면 resourceCheckDuration 뒤에 다시 체크
 				else {
-					contentLength = currentLength;
 					Object.keys(resources).forEach(function (item, index, array) {
 						//재시도 횟수과 초과되면 해당 리소스 다운로드 포기
 						if (++resources[item] > vars.resourceRequestAttempts) {
