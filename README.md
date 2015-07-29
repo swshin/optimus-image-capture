@@ -4,13 +4,13 @@
 
 ### Usage
 
-#### optimius-image-capture 모듈 사용예는 아래와 같습니다.
+optimius-image-capture 모듈 사용예는 아래와 같습니다.
 
 ```javascript
 var capture = require('optimus-image-capture');
 
 //대상 URL, 이미지 퀄리티, 슬라이스할 세로 높이, 해시값
-capture("https://www.google.com/", 70, 1000, "426AC...")
+capture.start("https://www.google.com/", 70, 1000, "426AC...")
 .then(function (result) {
 	//켭쳐된 이미지파일 리스트, 템플릿 등..
 	console.log(result);
@@ -22,7 +22,7 @@ capture("https://www.google.com/", 70, 1000, "426AC...")
 
 ```
 
-#### optimus-image-capture 모듈에서 리턴하는 결과 객체는 아래와 같습니다.
+optimus-image-capture 모듈에서 리턴하는 결과 객체는 아래와 같습니다.
 
 ```javascript
 {
@@ -34,7 +34,7 @@ capture("https://www.google.com/", 70, 1000, "426AC...")
 }
 ```
 
-#### optimus-image-capture 모듈에서 리턴하는 오류 객체는 아래와 같습니다.
+optimus-image-capture 모듈에서 리턴하는 오류 객체는 아래와 같습니다.
 
 ```javascript
 {
