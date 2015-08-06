@@ -1,6 +1,5 @@
 var page = require('webpage').create();
 var Promise = require('bluebird');
-var SparkMD5 = require('spark-md5');
 var vars = require('./capture.vars');
 var report = require('./capture.report');
 
@@ -64,7 +63,7 @@ var openpage = function () {
 		var onError = function (errorMessage) {
 			//페이지 닫기
 			page.close();
-			
+
 			//오류 내역 리포트하고 종료
 			reject(report.result("PHANOM04", "PhantomJS에서 JavaScript 오류가 발생했습니다. " + errorMessage));
 		};
@@ -75,21 +74,8 @@ var openpage = function () {
 			if (Number(new Date()) - openpageTime < vars.openpageTimeout) {
 				//더이상 변경이 없으면, 결과 출력 -> 향후에는 nested iframe 까지 모두 체크 필요
 				if (iframeLoadFinished && !Object.keys(resources).length) {
-					//MD5 생성 TESTME 진짜 content가 iframe을 포함하고 있나?
-					var currentMD5 = SparkMD5.hash(page.content);
-
-					//기존 MD5값과 비교해서 같으면,
-					if (vars.md5 === currentMD5) {
-						//작업 중지
-						reject(report.result("PHANOM99", "요청한 URL은 변경되지 않았습니다."));
-					}
-					//기존 MD5값과 다르면 컨텐츠가 변경된 것이므로,
-					else {
-						//현재 md5값으로 변경
-						vars.md5 = currentMD5;
-						//Promise Resolve
-						resolve(page);
-					}
+					//Promise Resolve
+					resolve(page);
 				}
 				//변경이 있으면 resourceCheckDuration 뒤에 다시 체크
 				else {

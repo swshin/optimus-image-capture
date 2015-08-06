@@ -1,4 +1,6 @@
+var fs = require('fs');
 var Promise = require('bluebird');
+var SparkMD5 = require('spark-md5');
 var vars = require('./capture.vars');
 var report = require('./capture.report');
 
@@ -18,6 +20,10 @@ var render = function (page) {
 		var outputFiles = [];
 		//현재 대상이 되는 동영상
 		var targetedMovie = undefined;
+		//SparkMD5 인스턴스
+		var sparkMD5 = new SparkMD5();
+		//캡쳐된 이미지 파일들의 해시값
+		var outputFilesHash = undefined;
 
 		//배경색 설정하기
 		page.evaluate(function (vars) {
@@ -105,10 +111,26 @@ var render = function (page) {
 
 		//템플릿 생성
 		outputTemplate = "<style>" + vars.inlineCSS + "</style><div class='optimus-image-capture'>" + outputTemplate + "</div><script>" + vars.inlineJS + "</script>";
+
+		//해시 생성을 위해 이미지 파일 로드
+		outputFiles.forEach(function (item) {
+			//이미지 파일
+			var captureImage = vars.outputFilePath + item;
+
+			//이미지 파일이 존재하면,
+			if (fs.exists(captureImage)) {
+				//해시값을 계산할 바이너리 추가
+				sparkMD5.appendBinary(fs.read(captureImage));
+			}
+		});
+
+		//해시값 계산
+		outputFilesHash = sparkMD5.end();
+
 		//페이지 닫기
 		page.close();
 		//결과값 리턴
-		resolve(report.result(false, false, vars.outputFilePath, outputFiles, outputTemplate, vars.md5));
+		resolve(report.result(false, false, vars.outputFilePath, outputFiles, outputTemplate, outputFilesHash));
 	});
 };
 

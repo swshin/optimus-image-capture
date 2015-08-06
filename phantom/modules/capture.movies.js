@@ -6,7 +6,6 @@ var report = require('./capture.report');
 var movies = function (page) {
 
 	return new Promise(function (resolve, reject) {
-
 		//jQuery 삽입
 		if (page.injectJs(vars.jQueryPath)) {
 

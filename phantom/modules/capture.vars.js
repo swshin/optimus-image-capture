@@ -25,8 +25,6 @@ module.exports = {
 	outputFilePath : modulePath + "phantom/output/",
 	//캡쳐 대상 URL
 	url : system.args[1],
-	//기존 MD5
-	md5 : system.args[4],
 	//뷰포트(캡쳐할 크기) 가로
 	viewportWidth : 700,
 	//뷰포트(캡쳐할 크기) 세로
