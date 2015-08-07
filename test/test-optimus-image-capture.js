@@ -8,8 +8,10 @@ capture.start.should.be.function;
 capture.start(16678490, 70, 1000)
 .then(function (result) {
     should.exist(result);
+    result.should.have.property('path');
     result.should.have.property('files');
     result.should.have.property('template');
+    result.should.have.property('md5');
 })
 .catch(function (error) {
     should.exist(error);
