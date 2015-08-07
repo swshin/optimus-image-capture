@@ -2,10 +2,10 @@ var should  = require('should');
 var capture = require('../');
 
 // Definition
-capture.should.be.function;
+capture.start.should.be.function;
 
 // Execution
-capture(16678490, 70, 1000)
+capture.start(16678490, 70, 1000)
 .then(function (result) {
     should.exist(result);
     result.should.have.property('files');
