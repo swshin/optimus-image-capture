@@ -9,8 +9,8 @@ optimius-image-capture 모듈 사용예는 아래와 같습니다.
 ```javascript
 var capture = require('optimus-image-capture');
 
-//대상 URL, 이미지 퀄리티, 슬라이스할 세로 높이
-capture.start("https://www.google.com/", 70, 1000)
+//대상 URL, 이미지 퀄리티, 슬라이스할 세로 높이, 캡쳐된 이미지가 저장될 절대 경로
+capture.start("https://www.google.com/", 70, 1000, "/home/user/output/")
 .then(function (result) {
 	//켭쳐된 이미지파일 리스트, 템플릿 등..
 	console.log(result);

@@ -22,7 +22,7 @@ module.exports = {
 	//이미지 포맷
 	imageFormat : "jpeg",
 	//캡쳐 결과물 파일 경로
-	outputFilePath : modulePath + "phantom/output/",
+	outputFilePath : system.args[4] || modulePath + "/phantom/output/",
 	//캡쳐 대상 URL
 	url : system.args[1],
 	//뷰포트(캡쳐할 크기) 가로
