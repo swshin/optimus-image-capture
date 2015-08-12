@@ -2,12 +2,12 @@
 var result = function (errorCode, errorMessage, path, files, template, md5) {
 	//리턴값
 	return {
-		"errorCode": errorCode,
-		"errorMessage": errorMessage,
-		"path": path,
-		"files": files,
-		"template": template,
-		"md5": md5
+		errorCode: errorCode,
+		errorMessage: errorMessage,
+		path: path,
+		files: files,
+		template: template,
+		md5: md5
 	};
 };
 
@@ -23,22 +23,22 @@ var error = function (arg) {
 	//에러 객체인 경우
 	else if (typeof arg === 'object' && arg.message) {
 		console.log(JSON.stringify({
-			"errorCode": "ETC01",
-			"errorMessage": arg.message
+			errorCode: 'ETC01',
+			errorMessage: arg.message
 		}));
 	}
 	//문자열인 경우
 	else if (typeof arg === 'string') {
 		console.log(JSON.stringify({
-			"errorCode": "ETC02",
-			"errorMessage": arg
+			errorCode: 'ETC02',
+			errorMessage: arg
 		}));
 	}
 	//그밖의 경우
 	else {
 		console.log(JSON.stringify({
-			"errorCode": "ETC03",
-			"errorMessage": "예상치 못한 오류가 발생하였습니다."
+			errorCode: 'ETC03',
+			errorMessage: '예상치 못한 오류가 발생하였습니다.'
 		}));
 	}
 }
