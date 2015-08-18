@@ -47,23 +47,37 @@ var openpage = function () {
 			resources[requestData.id] = 1;
 		};
 
-		//리소스 로드가 완료되면 목록에서 제거
+		//리소스 로드가 완료되면 목록에서 제거하고 하나라도 오류가 있다면 리소스 다운로드 실패로 오류 처리
 		var onResourceReceived = function (response) {
 			if (response.stage == 'end') {
-				delete resources[response.id];
+				//1xx (조건부 응답), 2xx (성공), 3xx (리다이렉션 완료) 는 정상으로 인지
+				if (response.status && Number(response.status) < 400) {
+					delete resources[response.id];
+				}
+				//4xx (요청 오류), 5xx (서버 오류) 는 오류로 인지
+				else {
+					//페이지 닫기
+					page.close();
+					//오류 리포트
+					reject(report.result("PHANOM09", "리소스 중 일부가 정상적으로 다운로드되지 않았습니다."));
+				}
 			}
 		};
 
 		//리소스 로드가 실패하면 목록에서 제거
 		var onResourceTimeout = function (request) {
-			delete resources[request.id];
+			//delete resources[request.id];
+
+			//페이지 닫기
+			page.close();
+			//오류 리포트
+			reject(report.result("PHANOM10", "제한 시간 이내에 리소스 중 일부가 다운로드되지 않았습니다."));
 		};
 
 		//JavaScript 오류 발생시
 		var onError = function (errorMessage) {
 			//페이지 닫기
 			page.close();
-
 			//오류 내역 리포트하고 종료
 			reject(report.result("PHANOM04", "PhantomJS에서 JavaScript 오류가 발생했습니다. " + errorMessage));
 		};
@@ -90,6 +104,9 @@ var openpage = function () {
 			}
 			//제한 시간을 넘었다면,
 			else {
+				//페이지 닫기
+				page.close();
+				//오류 리포트
 				reject(report.result("PHANOM02", "제한 시간 이내에 페이지를 여는데 실패했습니다."));
 			}
 		};
@@ -114,6 +131,8 @@ var openpage = function () {
 		page.open(vars.url, function (status) {
 			//페이지를 오픈하는데 실패한 경우,
 			if (status !== 'success') {
+				//페이지 닫기
+				page.close();
 				//오류 리포트
 				reject(report.result("PHANOM01", vars.url + " 를 여는데 실패했습니다."));
 			}
