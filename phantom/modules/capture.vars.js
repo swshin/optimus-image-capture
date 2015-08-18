@@ -5,6 +5,25 @@ var modulePath = fs.absolute(system.args[0].replace(/[^\/]*\/[^\/]*$/, ''));
 module.exports = {
 	//userAgent 설정
 	userAgent : 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.44 Safari/534.7',
+	//jQuery path
+	jQueryPath : modulePath + 'node_modules/jquery/dist/jquery.min.js',
+
+	//캡쳐 대상 URL
+	url : String(system.args[1]),
+	//이미지 퀄리티
+	imageQuality : Number(system.args[2]) || 70,
+	//뷰포트(캡쳐할 크기) 세로
+	viewportHeight : Number(system.args[3]) || 1000,
+	//캡쳐 결과물 파일 경로
+	outputFilePath : fs.absolute((system.args[4] || modulePath + '/phantom/output') + '/'),
+
+	//뷰포트(캡쳐할 크기) 가로
+	viewportWidth : 700,
+	//이미지 포맷
+	imageFormat : 'jpeg',
+	//캡쳐할 전체 영역 셀렉터
+	clientRectSelector: '#html2image',
+
 	//페이지 타임아웃 (ms)
 	openpageTimeout : 600000,
 	//리소스 제한시간 (ms)
@@ -15,22 +34,9 @@ module.exports = {
 	resourceCheckDuration : 2000,
 	//썸네일 다운로드 예상 시간 (ms)
 	thumbnailDownloadDuration : 2000,
-	//jQuery path
-	jQueryPath : modulePath + 'node_modules/jquery/dist/jquery.min.js',
-	//이미지 퀄리티
-	imageQuality : Number(system.args[2]) || 70,
-	//이미지 포맷
-	imageFormat : 'jpeg',
-	//캡쳐 결과물 파일 경로
-	outputFilePath : fs.absolute((system.args[4] || modulePath + '/phantom/output') + '/'),
-	//캡쳐 대상 URL
-	url : system.args[1],
-	//뷰포트(캡쳐할 크기) 가로
-	viewportWidth : 700,
-	//뷰포트(캡쳐할 크기) 세로
-	viewportHeight : Number(system.args[3]) || 1000,
-	//캡쳐할 전체 영역 셀렉터
-	clientRectSelector: '#html2image',
+
+
+
 	//템플릿에 포함할 인라인 CSS
 	inlineCSS : fs.read(modulePath + 'phantom/resources/inline.min.css'),
 	//템플릿에 포함할 인라인 자바스크립트
