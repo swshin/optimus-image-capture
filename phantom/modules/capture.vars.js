@@ -6,7 +6,7 @@ module.exports = {
 	//userAgent 설정
 	userAgent : 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.44 Safari/534.7',
 	//jQuery path
-	jQueryPath : modulePath + 'node_modules/jquery/dist/jquery.min.js',
+	jQueryPath : modulePath + '/node_modules/jquery/dist/jquery.min.js',
 
 	//캡쳐 대상 URL
 	url : String(system.args[1]),
@@ -38,9 +38,9 @@ module.exports = {
 
 
 	//템플릿에 포함할 인라인 CSS
-	inlineCSS : fs.read(modulePath + 'phantom/resources/inline.min.css'),
+	inlineCSS : fs.read(modulePath + '/phantom/resources/inline.min.css'),
 	//템플릿에 포함할 인라인 자바스크립트
-	inlineJS : fs.read(modulePath + 'phantom/resources/inline.min.js').replace(/"/g, '\''),
+	inlineJS : fs.read(modulePath + '/phantom/resources/inline.min.js').replace(/"/g, '\''),
 	//더미 이미지
 	dummyImage : {
 		url : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEXCwsK592mkAAAACklEQVQI12NgAAAAAgAB4iG8MwAAAABJRU5ErkJggg=='

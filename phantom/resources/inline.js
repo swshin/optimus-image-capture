@@ -4,14 +4,12 @@
 
     var $w = $(window),
         th = threshold || 0,
-        retina = window.devicePixelRatio > 1,
-        attrib = retina? "data-src-retina" : "data-src",
+        attrib = "data-src",
         images = this,
         loaded;
 
     this.one("unveil", function() {
       var source = this.getAttribute(attrib);
-      source = source || this.getAttribute("data-src");
       if (source) {
         this.setAttribute("src", source);
         if (typeof callback === "function") callback.call(this);
@@ -21,8 +19,6 @@
     function unveil() {
       var inview = images.filter(function() {
         var $e = $(this);
-        if ($e.is(":hidden")) return;
-
         var wt = $w.scrollTop(),
             wb = wt + $w.height(),
             et = $e.offset().top,
@@ -40,9 +36,7 @@
     unveil();
 
     return this;
-
   };
-
 })(window.jQuery);
 
 $(function() {
