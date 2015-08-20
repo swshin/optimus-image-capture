@@ -20,20 +20,27 @@ var start = function () {
 		phantomStream.on('data', function (data) {
 			phantomRawResult += data;
 			sys.print(data);
+
+			//child_process 에서 잡을 수 없는 Error: 로 시작하는 PhantomJS 오류가 발생한 경우,
+			if (data.toString().match(/^Error: /)) {
+				//PhantomJS 강제 종료
+				phantom.kill('SIGINT');
+			}
 		});
 
 		//error 코드 유무에 따라 Promise 실패/성공 리턴
 		phantomStream.on('end', function () {
-			phantomResult = JSON.parse(phantomRawResult);
-			if (phantomResult.error) return reject(phantomResult);
-			else return resolve(phantomResult);
-		});
+			try {
+				phantomResult = JSON.parse(phantomRawResult);
 
-		//child process 에서 오류 발생시 Promise 실패 리턴
-		phantomStream.on('error', function (err) {
-			phantomResult.error = err;
-			phantomResult.errorMessage = "Child process를 통해 PhantomJS를 실행하는데 실패했습니다.";
-			return reject(phantomResult);
+				if (phantomResult.error) return reject(phantomResult);
+				else return resolve(phantomResult);
+			}
+			catch (exception) {
+				phantomResult.error = exception;
+				phantomResult.errorMessage = "Child process를 통해 PhantomJS를 실행하는데 실패했습니다.";
+				return reject(phantomResult);
+			}
 		});
 	});
 };

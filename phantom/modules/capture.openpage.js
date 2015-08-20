@@ -11,6 +11,12 @@ var openpage = function () {
 		var openpageTime = Number(new Date());
 		//iframe 로드 체크
 		var iframeLoadFinished = false;
+		//리소스 다운로드 중 오류 여부
+		var onResourceReceivedError = false;
+		//리소스 로드 중 타임아웃 오류 여부
+		var onResourceTimeoutError = false;
+		//자바스크립트 오류 여부
+		var onJavaScriptErrror = false;
 		//컨텐츠 리소스
 		var resources = {};
 
@@ -51,35 +57,33 @@ var openpage = function () {
 		var onResourceReceived = function (response) {
 			if (response.stage == 'end') {
 				//1xx (조건부 응답), 2xx (성공), 3xx (리다이렉션 완료) 는 정상으로 인지
-				if (response.status && Number(response.status) < 400) {
+				if (response.status === null || response.status && Number(response.status) < 400) {
 					delete resources[response.id];
 				}
 				//4xx (요청 오류), 5xx (서버 오류) 는 오류로 인지
 				else {
-					//페이지 닫기
-					page.close();
-					//오류 리포트
-					reject(report.result("PHANOM09", "리소스 중 일부가 정상적으로 다운로드되지 않았습니다."));
+					//이미지 파일인 경우에만,
+					if (typeof response.url === 'string' && response.url.match(/\.(gif|jpg|jpeg|tiff|png)$/gi)) {
+
+						//리소스 다운로드 실패로 처리
+						onResourceReceivedError = true;
+					}
 				}
 			}
 		};
 
-		//리소스 로드가 실패하면 목록에서 제거
+		//리소스 로드가 실패하면,
 		var onResourceTimeout = function (request) {
-			//delete resources[request.id];
-
-			//페이지 닫기
-			page.close();
-			//오류 리포트
-			reject(report.result("PHANOM10", "제한 시간 이내에 리소스 중 일부가 다운로드되지 않았습니다."));
+			//목록에서 제거
+			delete resources[request.id];
+			//리소스 중 일부가 다운로드 실패
+			onResourceTimeoutError = true;
 		};
 
 		//JavaScript 오류 발생시
 		var onError = function (errorMessage) {
-			//페이지 닫기
-			page.close();
-			//오류 내역 리포트하고 종료
-			reject(report.result("PHANOM04", "PhantomJS에서 JavaScript 오류가 발생했습니다. " + errorMessage));
+			//자바스크립트 오류
+			onJavaScriptErrror = true;
 		};
 
 		//페이지가 모두 로드되었는지 체크하는 메서드
@@ -88,8 +92,33 @@ var openpage = function () {
 			if (Number(new Date()) - openpageTime < vars.openpageTimeout) {
 				//더이상 변경이 없으면, 결과 출력 -> 향후에는 nested iframe 까지 모두 체크 필요
 				if (iframeLoadFinished && !Object.keys(resources).length) {
-					//Promise Resolve
-					resolve(page);
+
+					//리소스 다운로드 중 오류 여부
+					if (onResourceReceivedError) {
+						//페이지 닫기
+						page.close();
+						//오류 리포트
+						reject(report.result("PHANOM09", "리소스 중 일부가 정상적으로 다운로드되지 않았습니다."));
+					}
+
+					else if (onResourceTimeoutError) {
+						//페이지 닫기
+						page.close();
+						//오류 리포트
+						reject(report.result("PHANOM10", "제한 시간 이내에 리소스 중 일부가 다운로드되지 않았습니다."));
+					}
+
+					else if (onJavaScriptErrror) {
+						//페이지 닫기
+						page.close();
+						//오류 내역 리포트하고 종료
+						reject(report.result("PHANOM04", "PhantomJS에서 JavaScript 오류가 발생했습니다. " + errorMessage));
+					}
+
+					else {
+						//정상인 경우 페이지를 다음 단계로 전달
+						resolve(page);
+					}
 				}
 				//변경이 있으면 resourceCheckDuration 뒤에 다시 체크
 				else {
