@@ -15,7 +15,7 @@ var initialize = function () {
 			resolve();
 		}
 		catch (exception) {
-			reject(report.result("PHANOM00", "output 폴더를 비우는데 실패했습니다."));
+			reject(report.result('PHANOM00', 'output 폴더를 비우는데 실패했습니다.'));
 		}
 	});
 };

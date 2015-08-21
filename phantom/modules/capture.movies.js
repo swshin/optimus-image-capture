@@ -14,7 +14,7 @@ var movies = function (page) {
 				var __mediaProperties = [];
 
 				//동영상의 절대 위치 -> FIXME var 형태로 할래 ㅋ
-				function absolutePostion (element, parentBoundingClientRectTop, parentBoundingClientRectLeft) {
+				var absolutePostion = function (element, parentBoundingClientRectTop, parentBoundingClientRectLeft) {
 					var selectedPosX = 0;
 					var selectedPosY = 0;
 
@@ -25,10 +25,10 @@ var movies = function (page) {
 					}
 
 					return [parentBoundingClientRectTop + selectedPosY, parentBoundingClientRectLeft + selectedPosX];
-				}
+				};
 
 				//flash 관련 정보 추출 및 썸네일로 치환
-				function removeFlash (currentDocument, parentBoundingClientRectWidth) {
+				var removeFlash = function (currentDocument, parentBoundingClientRectWidth) {
 					var params = currentDocument.querySelectorAll('param[name="movie"][value*="swf"]');
 
 					//FIXME 라인이 너무 길다. 읽기 좋게 변경 필요..
@@ -42,10 +42,10 @@ var movies = function (page) {
 
 						$(object).replaceWith("<div style=\"position: relative; width: " + width + "px; height: " + height + "px \"><div style=\"width: " + vars.cautionImage.width + "px;height: " + vars.cautionImage.height + "px;margin-left: -" + vars.cautionImage.halfWidth + "px;margin-top: -" + vars.cautionImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.cautionImage.width + " height=" + vars.cautionImage.height + " src=\"" + vars.cautionImage.url + "\" /></div></div>");
 					});
-				}
+				};
 
 				//video 태그 관련 정보 추출 및 썸네일로 치환
-				function replaceVideo (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
+				var replaceVideo = function (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
 					var sources = currentDocument.querySelectorAll('source[src][type*="video"]');
 
 					[].forEach.call(sources, function (item) {
@@ -54,16 +54,16 @@ var movies = function (page) {
 						var id = Number(new Date());
 						var width = ($(object).width() > parentBoundingClientRectWidth) ? parentBoundingClientRectWidth : $(object).width() || parentBoundingClientRectWidth;
 						var height = ($(object).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(object).height() / $(object).width() : $(object).height() || 0 | width / 2;
-						var thumbnail = "";
+						var thumbnail = '';
 						var absolutePos = absolutePostion(object, parentBoundingClientRectTop, parentBoundingClientRectLeft);
 						$(object).replaceWith("<div style=\"position: relative; background: rgb(0,0,0); width: " + width + "px; height: " + height + "px \"><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
-				}
+				};
 
 				//youtube 관련 정보 추출 및 썸네일로 치환
-				function replaceYoutube (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
+				var replaceYoutube = function (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
 					var iframes = currentDocument.querySelectorAll('iframe[src*="youtube.com"]');
 					var embeds = currentDocument.querySelectorAll('embed[src*="youtube.com"]');
 
@@ -90,10 +90,10 @@ var movies = function (page) {
 
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
-				}
+				};
 
 				//vimeo 관련 정보 추출 및 썸네일로 치환
-				function replaceVimeo (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
+				var replaceVimeo = function (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
 					var iframes = currentDocument.querySelectorAll('iframe[src*="player.vimeo.com"]');
 
 					[].forEach.call(iframes, function (item) {
@@ -107,10 +107,10 @@ var movies = function (page) {
 
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
-				}
+				};
 
 				//tvpot 관련 정보 추출 및 썸네일로 치환
-				function replaceTvpot (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
+				var replaceTvpot = function (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
 					var iframes = currentDocument.querySelectorAll('iframe[src*="videofarm.daum.net"]');
 					var embeds = currentDocument.querySelectorAll('embed[src*="videofarm.daum.net"]');
 
@@ -137,10 +137,10 @@ var movies = function (page) {
 
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
-				}
+				};
 
 				//동영상을 모두 썸네일로 치환하고 iframe을 찾아서 다시 반복 수행
-				function iframeFinder (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
+				var iframeFinder = function (currentDocument, parentBoundingClientRectTop, parentBoundingClientRectLeft, parentBoundingClientRectWidth) {
 					//현재 document 에서 플래시를 모두 제거
 					removeFlash(currentDocument, parentBoundingClientRectWidth);
 					//현재 document 에서 동영상을 모두 썸네일로 치환
@@ -159,7 +159,7 @@ var movies = function (page) {
 						//iframe 탐색
 						iframeFinder(item.contentWindow.document, parentBoundingClientRectTop + childBoundingClientRect.top, parentBoundingClientRectLeft + childBoundingClientRect.left, childBoundingClientRect.width);
 					});
-				}
+				};
 
 				//최상위 window의 body 위치값 추출
 				var topBoundingClientRect = document.body.getBoundingClientRect();

@@ -3,7 +3,6 @@ var Promise = require('bluebird');
 var vars = require('./capture.vars');
 var report = require('./capture.report');
 
-
 var openpage = function () {
 	return new Promise(function (resolve, reject) {
 
@@ -40,7 +39,7 @@ var openpage = function () {
 
 		//onLoadFinished 이벤트가 발생했을 때 호출되는 콜백
 		var onLoadFinished = function  (status) {
-			if (status === "success") {
+			if (status === 'success') {
 				//최상위 iframe까지 로드가 완료되면 iframeLoadFinished 값에 반영
 				iframeLoadFinished = page.evaluate(function () {
 					return window === window.top;
@@ -64,7 +63,6 @@ var openpage = function () {
 				else {
 					//이미지 파일인 경우에만,
 					if (typeof response.url === 'string' && response.url.match(/\.(gif|jpg|jpeg|tiff|png)$/gi)) {
-
 						//리소스 다운로드 실패로 처리
 						onResourceReceivedError = true;
 					}
@@ -98,21 +96,21 @@ var openpage = function () {
 						//페이지 닫기
 						page.close();
 						//오류 리포트
-						reject(report.result("PHANOM09", "리소스 중 일부가 정상적으로 다운로드되지 않았습니다."));
+						reject(report.result('PHANOM09', '리소스 중 일부가 정상적으로 다운로드되지 않았습니다.'));
 					}
 
 					else if (onResourceTimeoutError) {
 						//페이지 닫기
 						page.close();
 						//오류 리포트
-						reject(report.result("PHANOM10", "제한 시간 이내에 리소스 중 일부가 다운로드되지 않았습니다."));
+						reject(report.result('PHANOM10', '제한 시간 이내에 리소스 중 일부가 다운로드되지 않았습니다.'));
 					}
 
 					else if (onJavaScriptErrror) {
 						//페이지 닫기
 						page.close();
 						//오류 내역 리포트하고 종료
-						reject(report.result("PHANOM04", "PhantomJS에서 JavaScript 오류가 발생했습니다. " + errorMessage));
+						reject(report.result('PHANOM04', 'PhantomJS에서 JavaScript 오류가 발생했습니다. ' + errorMessage));
 					}
 
 					else {
@@ -136,18 +134,23 @@ var openpage = function () {
 				//페이지 닫기
 				page.close();
 				//오류 리포트
-				reject(report.result("PHANOM02", "제한 시간 이내에 페이지를 여는데 실패했습니다."));
+				reject(report.result('PHANOM02', '제한 시간 이내에 페이지를 여는데 실패했습니다.'));
 			}
 		};
 
 		//페이지 세팅
-		page.settings.userAgent = vars.userAgent
+		page.settings.userAgent = vars.userAgent;
 		page.settings.resourceTimeout = vars.resourceTimeout;
 		page.settings.webSecurityEnabled = false;
 		page.settings.XSSAuditingEnabled = false;
 		page.settings.localToRemoteUrlAccessEnabled = true;
-		page.customHeaders = { 'Connection': 'close' };
-		page.viewportSize = { width: vars.viewportWidth, height: vars.viewportHeight };
+		page.customHeaders = {
+			'Connection': 'close'
+		};
+		page.viewportSize = {
+			width: vars.viewportWidth,
+			height: vars.viewportHeight
+		};
 		page.onInitialized = onInitialized;
 		page.onCallback = onCallback;
 		page.onLoadFinished = onLoadFinished;
@@ -163,7 +166,7 @@ var openpage = function () {
 				//페이지 닫기
 				page.close();
 				//오류 리포트
-				reject(report.result("PHANOM01", vars.url + " 를 여는데 실패했습니다."));
+				reject(report.result('PHANOM01', vars.url + ' 를 여는데 실패했습니다.'));
 			}
 		});
 	});

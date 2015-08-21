@@ -1,6 +1,6 @@
 var sys = require('sys');
 var spawn = require('child_process').spawn;
-var Promise = require("bluebird");
+var Promise = require('bluebird');
 var path = require('path');
 var phantomScriptPath = path.join(__dirname, './phantom/phantomjs-script.js');
 
@@ -14,7 +14,7 @@ var start = function () {
 
 		var phantom = spawn('phantomjs', spawnArguments);
 		var phantomStream = phantom.stdout;
-		var phantomRawResult = "";
+		var phantomRawResult = '';
 		var phantomResult = {};
 
 		phantomStream.on('data', function (data) {
@@ -33,12 +33,17 @@ var start = function () {
 			try {
 				phantomResult = JSON.parse(phantomRawResult);
 
-				if (phantomResult.error) return reject(phantomResult);
-				else return resolve(phantomResult);
+				if (phantomResult.error) {
+					return reject(phantomResult);
+				}
+				else {
+					return resolve(phantomResult);
+				}
 			}
 			catch (exception) {
 				phantomResult.error = exception;
-				phantomResult.errorMessage = "Child process를 통해 PhantomJS를 실행하는데 실패했습니다.";
+				phantomResult.errorMessage = 'Child process를 통해 PhantomJS를 실행하는데 실패했습니다.';
+
 				return reject(phantomResult);
 			}
 		});

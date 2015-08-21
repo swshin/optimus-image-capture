@@ -13,9 +13,9 @@ var render = function (page) {
 		//캡쳐할 부분 영역
 		var clipRect = {};
 		//캡쳐 결과물 파일
-		var outputFileName = "";
+		var outputFileName = '';
 		//캡쳐 결과물 템플릿
-		var outputTemplate = "";
+		var outputTemplate = '';
 		//캡쳐 결과물 파일명들
 		var outputFiles = [];
 		//현재 대상이 되는 동영상
@@ -27,13 +27,13 @@ var render = function (page) {
 
 		//배경색 설정하기
 		page.evaluate(function (vars) {
-			document.body.bgColor = '#FFF';
+			document.body.bgColor = '#FFFFFF';
 		}, vars);
 
 		//기본 글꼴 설정하기
 		page.evaluate(function (vars) {
-			var fontStyle = document.createElement("style");
-			fontStyle.innerHTML = "* { font-family: 'NanumBarunGothic'; }";
+			var fontStyle = document.createElement('style');
+			fontStyle.innerHTML = '* { font-family: \'NanumBarunGothic\'; }';
 			document.head.appendChild(fontStyle);
 		}, vars);
 
@@ -58,7 +58,7 @@ var render = function (page) {
 			};
 
 			//viewport 크기에 맞추어서 잘라서 캡쳐
-			for (var i=0; clipRect.top < clientRect.height; i++) {
+			for (var i = 0; clipRect.top < clientRect.height; i++) {
 				try {
 					//대상 동영상 초기화
 					targetedMovie = undefined;
@@ -86,7 +86,7 @@ var render = function (page) {
 						}
 					});
 
-					outputFileName = i + "." + vars.imageFormat;
+					outputFileName = i + '.' + vars.imageFormat;
 					page.clipRect = clipRect;
 					page.render(vars.outputFilePath + outputFileName, {format: vars.imageFormat, quality: vars.imageQuality});
 					outputFiles.push(outputFileName);
@@ -94,7 +94,7 @@ var render = function (page) {
 					//만약 현재 위치가 동영상 위치라면,
 					if (targetedMovie) {
 						//영상에 대한 링크 추가
-						outputTemplate += "<a href='" + targetedMovie.src + "' target=_blank><img src='" + vars.dummyImage.url + "' data-src='" + vars.outputFilePath + outputFileName + "' width=" + clipRect.width + " height=" + clipRect.height + " class='lazy-hidden'/></a><br />";
+						outputTemplate += '<a href=\'' + targetedMovie.src + '\' target=_blank><img src=\'' + vars.dummyImage.url + '\' data-src=\'' + vars.outputFilePath + outputFileName + '\' width=' + clipRect.width + ' height=' + clipRect.height + ' class=\'lazy-hidden\'/></a><br />';
 
 						//해당 동영상만큼만 다음 시작 위치 조정
 						clipRect.top += targetedMovie.height;
@@ -102,7 +102,7 @@ var render = function (page) {
 					}
 					//동영상 위치가 아니라면,
 					else {
-						outputTemplate += "<img src='" + vars.dummyImage.url + "' data-src='" + vars.outputFilePath + outputFileName + "' width=" + clipRect.width + " height=" + clipRect.height + " class='lazy-hidden'/><br />";
+						outputTemplate += '<img src=\'' + vars.dummyImage.url + '\' data-src=\'' + vars.outputFilePath + outputFileName + '\' width=' + clipRect.width + ' height=' + clipRect.height + ' class=\'lazy-hidden\'/><br />';
 
 						clipRect.top += (clipRect.height == vars.viewportHeight) ? vars.viewportHeight : clipRect.height;
 						clipRect.height = clientRect.height - clipRect.top < vars.viewportHeight ? clientRect.height - clipRect.top : vars.viewportHeight;
@@ -112,12 +112,12 @@ var render = function (page) {
 					//페이지 닫기
 					page.close();
 					//오류 리포트
-					reject(report.result("PHANOM02", i + "." + vars.imageFormat + ".파일을 생성하는 과정에서 오류가 발생했습니다."));
+					reject(report.result('PHANOM02', i + '.' + vars.imageFormat + '.파일을 생성하는 과정에서 오류가 발생했습니다.'));
 				}
 			}
 
 			//템플릿 생성
-			outputTemplate = "<style>" + vars.inlineCSS + "</style><div class='optimus-image-capture'>" + outputTemplate + "</div><script>" + vars.inlineJS + "</script>";
+			outputTemplate = '<style>' + vars.inlineCSS + '</style><div class=\'optimus-image-capture\'>' + outputTemplate + '</div><script>' + vars.inlineJS + '</script>';
 
 			//해시 생성을 위해 이미지 파일 로드
 			outputFiles.forEach(function (item) {
@@ -145,7 +145,7 @@ var render = function (page) {
 			//페이지 닫기
 			page.close();
 			//오류 리포트
-			reject(report.result("PHANOM33", "캡쳐할 영역을 설정하는데 실패했습니다."));
+			reject(report.result('PHANOM33', '캡쳐할 영역을 설정하는데 실패했습니다.'));
 		}
 	});
 };

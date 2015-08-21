@@ -1,0 +1,21 @@
+{
+    "preset": "google",
+    "validateIndentation": "\t",
+    "maximumLineLength": 1000,
+    "disallowSpacesInAnonymousFunctionExpression": null,
+    "disallowSpacesInFunctionExpression": null,
+    "requireSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
+    "requireSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
+    "disallowKeywordsOnNewLine": null,
+    "requireKeywordsOnNewLine": ["else", "catch"],
+    "excludeFiles": [
+        "node_modules/**",
+        "phantom/resources/**"
+    ]
+}

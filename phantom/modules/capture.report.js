@@ -13,7 +13,7 @@ var result = function (errorCode, errorMessage, path, files, template, md5) {
 
 var complete = function (arg) {
 	console.log(JSON.stringify(arg));
-}
+};
 
 var error = function (arg) {
 	//정상적인 오류 리턴인 경우
@@ -41,7 +41,7 @@ var error = function (arg) {
 			errorMessage: '예상치 못한 오류가 발생하였습니다.'
 		}));
 	}
-}
+};
 
 exports.result = result;
 exports.complete = complete;
