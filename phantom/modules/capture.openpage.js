@@ -57,10 +57,10 @@ var openpage = function (vars) {
 				//목록에서 제거하고
 				delete resources[response.id];
 
-				//4xx (요청 오류), 5xx (서버 오류) 는 오류로 인지
-				if (response.status !== null && response.status && Number(response.status) >= 400) {
+				//response.status가 숫자가 아니거나, 4xx (요청 오류), 5xx (서버 오류) 는 오류로 인지
+				if (typeof response.status !== 'number' || Number(response.status) >= 400) {
 					//이미지 파일인 경우에만,
-					if (typeof response.url === 'string' && response.url.match(/\.(gif|jpg|jpeg|tiff|png)$/gi)) {
+					if (typeof response.url === 'string' && response.url.match(/\.(gif|jpg|jpeg|tif|tiff|png)$/gi)) {
 						//리소스 다운로드 실패로 처리
 						onResourceReceivedError = true;
 					}
@@ -92,7 +92,7 @@ var openpage = function (vars) {
 					//주요 리소스 다운로드 중 오류가 발생한 경우,
 					if (onResourceReceivedError) {
 						//오류 리포트 생성
-						vars.result = report.result('OPEN01', '리소스 중 일부가 정상적으로 다운로드되지 않았습니다.');
+						vars.result = report.result('OPEN01', '이미지 중 일부가 정상적으로 다운로드되지 않았습니다.');
 						//실패 처리
 						reject(vars);
 					}
