@@ -1,46 +1,41 @@
+var Promise = require('bluebird');
+
 //결과값 리턴
-var result = function (errorCode, errorMessage, path, files, template, md5) {
+var result = function (code, message) {
 	//리턴값
 	return {
-		errorCode: errorCode,
-		errorMessage: errorMessage,
-		path: path,
-		files: files,
-		template: template,
-		md5: md5
+		code: code,
+		message: message
 	};
 };
 
-var complete = function (arg) {
-	console.log(JSON.stringify(arg));
+var complete = function (parameter) {
+	return new Promise(function (resolve, reject) {
+		console.log(JSON.stringify(parameter.result));
+
+		resolve(parameter);
+	});
 };
 
-var error = function (arg) {
-	//정상적인 오류 리턴인 경우
-	if (typeof arg === 'object' && arg.errorCode) {
-		console.log(JSON.stringify(arg));
-	}
-	//에러 객체인 경우
-	else if (typeof arg === 'object' && arg.message) {
-		console.log(JSON.stringify({
-			errorCode: 'ETC01',
-			errorMessage: arg.message
-		}));
-	}
-	//문자열인 경우
-	else if (typeof arg === 'string') {
-		console.log(JSON.stringify({
-			errorCode: 'ETC02',
-			errorMessage: arg
-		}));
-	}
-	//그밖의 경우
-	else {
-		console.log(JSON.stringify({
-			errorCode: 'ETC03',
-			errorMessage: '예상치 못한 오류가 발생하였습니다.'
-		}));
-	}
+var error = function (parameter) {
+	return new Promise(function (resolve, reject) {
+		//에러 객체인 경우
+		if (parameter instanceof Error) {
+			console.log(JSON.stringify(result('PHAN00', parameter.message)));
+		}
+
+		//정상적인 오류 리턴인 경우
+		else if (parameter && typeof parameter.result === 'object' && parameter.result.code && parameter.result.code.length) {
+			console.log(JSON.stringify(parameter.result));
+		}
+
+		//그밖의 경우
+		else {
+			console.log(JSON.stringify(result('PHAN01', '예상치 못한 오류가 발생했습니다.')));
+		}
+
+		resolve(parameter);
+	});
 };
 
 exports.result = result;

@@ -1,16 +1,14 @@
 var Promise = require('bluebird');
-var vars = require('./capture.vars');
 var report = require('./capture.report');
 
 //동영상 관련 처리
-var movies = function (page) {
-
+var movies = function (vars) {
 	return new Promise(function (resolve, reject) {
 		//jQuery 삽입
-		if (page.injectJs(vars.jQueryPath)) {
+		if (vars.page.injectJs(vars.jQueryPath)) {
 
 			//안과 밖의 변수명 바꾸기..
-			var mediaProperties = page.evaluate(function (vars) {
+			var mediaProperties = vars.page.evaluate(function (vars) {
 				var __mediaProperties = [];
 
 				//동영상의 절대 위치 -> FIXME var 형태로 할래 ㅋ
@@ -198,15 +196,15 @@ var movies = function (page) {
 				//동영상 관련 정보 저장
 				vars.mediaProperties = mediaProperties;
 				//Promise 성공
-				resolve(page);
+				resolve(vars);
 
 			}, vars.thumbnailDownloadDuration);
 		}
 		else {
-			//페이지 닫기
-			page.close();
-			//오류 리포트 후 종료
-			reject(report.result("PHANOM06", "페이지에 JQuery를 인젝션하는데 실패했습니다."));
+			//오류 리포트 생성
+			vars.result = report.result("MOVI00", "페이지에 JQuery를 인젝션하는데 실패했습니다.");
+			//실패 처리
+			reject(vars);
 		}
 	});
 };

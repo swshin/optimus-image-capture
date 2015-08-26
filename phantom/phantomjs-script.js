@@ -3,6 +3,7 @@ var openpage = require('./modules/capture.openpage');
 var movies = require('./modules/capture.movies');
 var render = require('./modules/capture.render');
 var report = require('./modules/capture.report');
+var close = require('./modules/capture.close');
 
 //output 폴더 비우기, 변수 초기화
 initialize()
@@ -23,4 +24,4 @@ initialize()
 .catch(report.error)
 
 //PhantomJS 종료
-.finally(phantom.exit);
+.done(close);
