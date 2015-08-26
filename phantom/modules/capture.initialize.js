@@ -19,25 +19,25 @@ var initialize = function () {
 			//캡쳐 대상
 			vars.url = vars.url || '';
 			//캡쳐 이미지 퀄리티
-			vars.imageQuality = vars.imageQuality || 70;
+			vars.imageQuality = Number(vars.imageQuality || 70);
 			//기본 캡쳐 단위 높이
-			vars.viewportHeight = vars.viewportHeight || 1000;
+			vars.viewportHeight = Number(vars.viewportHeight || 1000);
 			//캡쳐 결과물 경로
 			vars.resultPath = fs.absolute((vars.resultPath || modulePath + '/phantom') + '/result/');
 			//뷰포트(캡쳐할 크기) 가로
-			vars.viewportWidth = vars.viewportWidth || 700;
+			vars.viewportWidth = Number(vars.viewportWidth || 700);
 			//이미지 포맷
 			vars.imageFormat = vars.imageFormat || 'jpeg';
 			//캡쳐할 전체 영역 셀렉터
 			vars.clientRectSelector = vars.clientRectSelector || '#html2image';
 			//페이지 로딩 타임아웃 (ms)
-			vars.openpageTimeout = vars.openpageTimeout || 600000;
+			vars.openpageTimeout = Number(vars.openpageTimeout || 600000);
 			//리소스 제한시간 (ms)
-			vars.resourceTimeout = vars.resourceTimeout || 60000;
+			vars.resourceTimeout = Number(vars.resourceTimeout || 60000);
 			//페이지 로드 완료 여부 체크 간격 (ms)
-			vars.openpageCompleteCheckDuration = vars.openpageCompleteCheckDuration || 2000;
+			vars.openpageCompleteCheckDuration = Number(vars.openpageCompleteCheckDuration || 2000);
 			//동영상 썸네일 다운로드 대기 시간
-			vars.thumbnailDownloadDuration = vars.thumbnailDownloadDuration || 2000;
+			vars.thumbnailDownloadDuration = Number(vars.thumbnailDownloadDuration || 2000);
 			//템플릿에 포함할 인라인 CSS 파일 경로
 			vars.stylesheetFilePath = vars.stylesheetFilePath || modulePath + '/phantom/resources/inline.min.css';
 			//템플릿에 포함할 인라인 자바스크립트 파일 경로

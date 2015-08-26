@@ -72,7 +72,7 @@ var movies = function (vars) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://img.youtube.com/vi/" + id + "/0.jpg";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative; background: rgb(0,0,0);\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
@@ -84,7 +84,7 @@ var movies = function (vars) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://img.youtube.com/vi/" + id + "/0.jpg";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative; background: rgb(0,0,0);\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
@@ -101,7 +101,7 @@ var movies = function (vars) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "https://i.vimeocdn.com/video/" + id;
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative; background: rgb(0,0,0);\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
@@ -119,7 +119,7 @@ var movies = function (vars) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://i1.daumcdn.net/svc/image/U03/tvpot_thumb/" + id + "/thumb.png";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative; background: rgb(0,0,0);\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
@@ -131,7 +131,7 @@ var movies = function (vars) {
 						var height = ($(item).width() > parentBoundingClientRectWidth) ? 0 | parentBoundingClientRectWidth * $(item).height() / $(item).width() : $(item).height() || 0 | width / 2;
 						var thumbnail = "http://i1.daumcdn.net/svc/image/U03/tvpot_thumb/" + id + "/thumb.png";
 						var absolutePos = absolutePostion(item, parentBoundingClientRectTop, parentBoundingClientRectLeft);
-						$(item).replaceWith("<div style=\"position: relative;\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
+						$(item).replaceWith("<div style=\"position: relative; background: rgb(0,0,0);\"><img src='" + thumbnail + "' width=" + width + " height=" + height + "/><div style=\"width: " + vars.playButtonImage.width + "px;height: " + vars.playButtonImage.height + "px;margin-left: -" + vars.playButtonImage.halfWidth + "px;margin-top: -" + vars.playButtonImage.halfHeight + "px;outline: 0;position: absolute;top: 50%;left: 50%;z-index: 840;\"><img width=" + vars.playButtonImage.width + " height=" + vars.playButtonImage.height + " src=\"" + vars.playButtonImage.url + "\" /></div></div>");
 
 						__mediaProperties.push({id:id, src:src, width:Number(width), height:Number(height), thumbnail:thumbnail, top:absolutePos[0], left:absolutePos[1]});
 					});
