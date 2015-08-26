@@ -23,7 +23,7 @@ var initialize = function () {
 			//기본 캡쳐 단위 높이
 			vars.viewportHeight = vars.viewportHeight || 1000;
 			//캡쳐 결과물 경로
-			vars.resultPath = fs.absolute((vars.resultPath || modulePath + '/phantom/output') + '/');
+			vars.resultPath = fs.absolute((vars.resultPath || modulePath + '/phantom') + '/result/');
 			//뷰포트(캡쳐할 크기) 가로
 			vars.viewportWidth = vars.viewportWidth || 700;
 			//이미지 포맷
@@ -36,7 +36,7 @@ var initialize = function () {
 			vars.resourceTimeout = vars.resourceTimeout || 60000;
 			//페이지 로드 완료 여부 체크 간격 (ms)
 			vars.openpageCompleteCheckDuration = vars.openpageCompleteCheckDuration || 2000;
-			//캡쳐할 전체 영역 셀렉터
+			//동영상 썸네일 다운로드 대기 시간
 			vars.thumbnailDownloadDuration = vars.thumbnailDownloadDuration || 2000;
 			//템플릿에 포함할 인라인 CSS 파일 경로
 			vars.stylesheetFilePath = vars.stylesheetFilePath || modulePath + '/phantom/resources/inline.min.css';

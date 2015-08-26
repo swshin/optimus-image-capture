@@ -27,4 +27,4 @@ build/Release
 node_modules
 
 # Output directory
-phantom/output
+phantom/result

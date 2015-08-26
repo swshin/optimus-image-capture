@@ -8,44 +8,56 @@ optimius-image-capture 모듈 사용예는 아래와 같습니다.
 
 ```javascript
 var capture = require('optimus-image-capture');
+var captureOptions = {};
+//캡쳐 대상
+captureOptions.url = 'http://www.google.com/';
+//캡쳐 결과물 경로
+captureOptions.resultPath = '/home/optimus-image-capture/';
+//캡쳐 이미지 퀄리티
+captureOptions.imageQuality = captureOptions.imageQuality || 70;
+//기본 캡쳐 단위 높이
+captureOptions.viewportHeight = captureOptions.viewportHeight || 1000;
+//뷰포트(캡쳐할 크기) 가로
+captureOptions.viewportWidth = captureOptions.viewportWidth || 700;
+//이미지 포맷
+captureOptions.imageFormat = captureOptions.imageFormat || 'jpeg';
+//캡쳐할 전체 영역 셀렉터
+captureOptions.clientRectSelector = captureOptions.clientRectSelector || '#html2image';
+//페이지 로딩 타임아웃 (ms)
+captureOptions.openpageTimeout = captureOptions.openpageTimeout || 600000;
+//리소스 로딩 제한시간 (ms)
+captureOptions.resourceTimeout = captureOptions.resourceTimeout || 60000;
+//페이지 로드 완료 여부 체크 간격 (ms)
+captureOptions.openpageCompleteCheckDuration = captureOptions.openpageCompleteCheckDuration || 2000;
+//동영상 썸네일 다운로드 대기시간
+captureOptions.thumbnailDownloadDuration = captureOptions.thumbnailDownloadDuration || 2000;
 
 //대상 URL, 이미지 퀄리티, 슬라이스할 세로 높이, 캡쳐된 이미지가 저장될 절대 경로
-capture.start("https://www.google.com/", 70, 1000, "/home/user/output/")
+capture.start(captureOptions)
 .then(function (result) {
-	//켭쳐된 이미지파일 리스트, 템플릿 등..
-	console.log(result);
+	//캡쳐된 파일 위치
+	console.log('outputFilePath :' + result.message.path);
+	//캡쳐 파일 리스트
+	console.log('outputFiles :' + result.message.files);
+	//캡쳐된 파일로 구성한 템플릿
+	console.log('template :' + result.message.template);
+	//캡쳐된 파일의 해시값
+	console.log('hash :' + result.message.md5);
 })
 .catch(function (error) {
-	//오류 메시지
-	console.log(error);
+	//unhandled error
+	if (error instanceof Error) {
+		//에러 메시지
+		console.log(error.message);
+	}
+	else {
+		//에러 코드
+		console.log(error.code);
+		//에러 메시지
+		console.log(error.message);
+	}
 });
 
-```
-
-optimus-image-capture 모듈에서 리턴하는 결과 객체는 아래와 같습니다.
-
-```javascript
-{
-	"errorCode": errorCode, //정상이므로 false
-	"errorMessage": errorMessage, //정상이므로 false
-	"path": path, //캡쳐된 이미지가 저장된 절대 경로
-	"files": files, //캡쳐된 이미지 파일명 목록 [순번.확장자, ...]
-	"template": template, //캡쳐된 이미지로 구성된 템플릿
-	"md5": md5 //캡쳐된 이미지들의 체크섬
-}
-```
-
-optimus-image-capture 모듈에서 리턴하는 오류 객체는 아래와 같습니다.
-
-```javascript
-{
-	"errorCode": errorCode, //에러 코드
-	"errorMessage": errorMessage, //에러 상세 내용
-	"path": path, //오류이므로 undefined
-	"files": files, //오류이므로 undefined
-	"template": template, //오류이므로 undefined
-	"md5": md5 //오류이므로 undefined
-}
 ```
 
 ### Dependency
