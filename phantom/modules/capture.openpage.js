@@ -77,7 +77,7 @@ var openpage = function (vars) {
 		};
 
 		//JavaScript 오류 발생시
-		var onError = function (errorMessage) {
+		var onError = function () {
 			//자바스크립트 오류
 			onJavaScriptErrror = true;
 		};
@@ -104,22 +104,23 @@ var openpage = function (vars) {
 						//실패 처리
 						reject(vars);
 					}
-
+					/*
 					//페이지에서 자바스크립트 에러가 발생한 경우,
 					else if (onJavaScriptErrror) {
 						//오류 리포트 생성
-						vars.result = report.result('OPEN03', 'PhantomJS에서 JavaScript 오류가 발생했습니다. ' + errorMessage);
+						vars.result = report.result('OPEN03', 'PhantomJS에서 JavaScript 오류가 발생했습니다. ');
 						//실패 처리
 						reject(vars);
 					}
-
+					*/
 					else {
 						//페이지 로드가 완료되면 다음 단계로 진행
 						resolve(vars);
 					}
 				}
-				//로드가 완료되지 않았다면, resourceCheckDuration 뒤에 다시 체크
+				//로드가 완료되지 않았다면,
 				else {
+					//resourceCheckDuration 뒤에 다시 체크
 					window.setTimeout(documentReadyCheck, vars.openpageCompleteCheckDuration);
 				}
 			}
