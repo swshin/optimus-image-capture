@@ -14,23 +14,23 @@ captureOptions.url = 'http://www.google.com/';
 //캡쳐 결과물 경로
 captureOptions.resultPath = '/home/optimus-image-capture/';
 //캡쳐 이미지 퀄리티
-captureOptions.imageQuality = captureOptions.imageQuality || 70;
+captureOptions.imageQuality = 70;
 //기본 캡쳐 단위 높이
-captureOptions.viewportHeight = captureOptions.viewportHeight || 1000;
+captureOptions.viewportHeight = 1000;
 //뷰포트(캡쳐할 크기) 가로
-captureOptions.viewportWidth = captureOptions.viewportWidth || 700;
+captureOptions.viewportWidth = 700;
 //이미지 포맷
-captureOptions.imageFormat = captureOptions.imageFormat || 'jpeg';
+captureOptions.imageFormat = 'jpeg';
 //캡쳐할 전체 영역 셀렉터
-captureOptions.clientRectSelector = captureOptions.clientRectSelector || '#html2image';
+captureOptions.clientRectSelector = '#html2image';
 //페이지 로딩 타임아웃 (ms)
-captureOptions.openpageTimeout = captureOptions.openpageTimeout || 600000;
+captureOptions.openpageTimeout = 600000;
 //리소스 로딩 제한시간 (ms)
-captureOptions.resourceTimeout = captureOptions.resourceTimeout || 60000;
+captureOptions.resourceTimeout = 60000;
 //페이지 로드 완료 여부 체크 간격 (ms)
-captureOptions.openpageCompleteCheckDuration = captureOptions.openpageCompleteCheckDuration || 2000;
-//동영상 썸네일 다운로드 대기시간
-captureOptions.thumbnailDownloadDuration = captureOptions.thumbnailDownloadDuration || 2000;
+captureOptions.openpageCompleteCheckDuration = 2000;
+//동영상 썸네일 다운로드 대기시간 (ms)
+captureOptions.thumbnailDownloadDuration = 2000;
 
 //대상 URL, 이미지 퀄리티, 슬라이스할 세로 높이, 캡쳐된 이미지가 저장될 절대 경로
 capture.start(captureOptions)
