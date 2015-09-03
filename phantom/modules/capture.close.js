@@ -9,7 +9,7 @@ var close = function (vars) {
 	}
 	finally {
 		//PhantomJS 종료
-		phantom.exit();		
+		phantom.exit();
 	}
 };
 
